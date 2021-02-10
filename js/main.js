@@ -10,11 +10,7 @@ function init() {
 
 function addEventListeners() {
     var elInput = document.getElementById('input-text');
-    elInput.addEventListener("keyup", function (event) {
-        if (event.keyCode === 13) {
-            document.getElementById("add-text-btn").click();
-        }
-    });
+    elInput.addEventListener("keyup", addText);
 }
 
 function renderImages() {
@@ -27,7 +23,12 @@ function renderImages() {
 
 function onSetImg(id) {
     setgImg(id);
-    drawImg();
+    renderCanvas();
+    toggleEditor();
+}
+
+function onBack() {
+    resetCanvas();
     toggleEditor();
 }
 
@@ -38,39 +39,59 @@ function toggleEditor() {
     elGallery.classList.toggle('hidden');
 }
 
-function onAddText() {
+function addText() {
+    var text = document.getElementById('input-text').value;
+    var line = getCurrLine();
+    line.txt = text;
+    renderCanvas();
+}
+
+function onSwitchLine() {
+    updateLineIdx();
+    var line = getCurrLine();
+    line.txt = 'your text here!✍'
+    renderCanvas();
     var elInput = document.getElementById('input-text');
-    var text = elInput.value;
-    var memeLine = getgMemeLine();
-    memeLine.txt = text;
-    drawText(text);
     elInput.value = '';
 }
 
-
-function drawImg() {
+function renderCanvas() {
     const img = new Image();
     var currImg = getImgById(gCurrImgId);
     img.src = `./${currImg.url}`;
     img.onload = () => {
-        gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+        gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
+        drawText();
     }
 }
 
-function drawText(text, x = gElCanvas.width / 2, y = 30) {
-    var memeLine = getgMemeLine();
-    gCtx.lineWidth = 2
-    gCtx.strokeStyle = memeLine.stroke;
-    gCtx.fillStyle = memeLine.color;
-    gCtx.font = `${memeLine.size}px ${memeLine.font}`;
-    gCtx.textAlign = memeLine.align;
-    gCtx.fillText(text, x, y, gElCanvas.width);
-    gCtx.strokeText(text, x, y, gElCanvas.width);
+function drawText() {
+    var lines = getgMemeLines();
+    for (var i = 0; i < lines.length; i++) {
+        gCtx.lineWidth = 2;
+        gCtx.strokeStyle = lines[i].stroke;
+        gCtx.fillStyle = lines[i].color;
+        gCtx.font = `${lines[i].size}px ${lines[i].font}`;
+        gCtx.textAlign = lines[i].align;
+        gCtx.fillText(lines[i].txt, gElCanvas.width / 2, lines[i].y, gElCanvas.width);
+        gCtx.strokeText(lines[i].txt, gElCanvas.width / 2, lines[i].y, gElCanvas.width);
+    }
 }
 
-function clearAddOns() {
-    gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height);
-    drawImg(gCurrImgId);
+function clearText() {
+    var lines = getgMemeLines();
+    for (var i = 0; i < lines.length; i++) {
+        lines[i].txt = '';
+    }
+    renderCanvas();
+    updateLineIdx('reset');
+}
+
+function resetCanvas() {
+    clearText();
+    gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
+    var elInput = document.getElementById('input-text');
+    elInput.value = '';
 }
 
 function downloadCanvas(elLink) {

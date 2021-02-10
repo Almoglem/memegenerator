@@ -8,15 +8,24 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.editor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editor-options {
+    max-width: 200px;
+}
 
 .gallery {
     margin: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     grid-template-rows: repeat(3, 1fr);
     gap: 10px;
     height: 400px;
-    width: 700px;
+    width: 800px;
 }
 
 .gallery img {
@@ -24,6 +33,27 @@ body {
     width: 100%;
 }
 
+/* helpers */
 .hidden {
     display: none;
+}
+
+/* medium breakpoint */
+
+@media (max-width: 1200px) {
+    .gallery {
+        width: 600px;
+    }
+}
+
+/* small breakpoint */
+
+@media (max-width: 680px) {
+    .gallery {
+        width: 400px;
+    }
+
+    .editor {
+        flex-direction: column;
+    }
 }
