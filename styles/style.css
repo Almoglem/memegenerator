@@ -1,3 +1,29 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: blanchedalmond;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.gallery {
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    height: 400px;
+    width: 700px;
+}
+
+.gallery img {
+    height: 100%;
+    width: 100%;
+}
+
+.hidden {
+    display: none;
 }
