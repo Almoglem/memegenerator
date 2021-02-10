@@ -4,7 +4,7 @@ var gCtx;
 function init() {
     gElCanvas = document.getElementById('meme-canvas');
     gCtx = gElCanvas.getContext('2d');
-    drawImg(1)
+    drawImg(3)
 }
 
 
@@ -17,12 +17,12 @@ function drawImg(id) {
     }
 }
 
-function drawText(text, x, y) {
+function drawText(meme, x = gElCanvas.width / 2, y = 25) {
     gCtx.lineWidth = 2
-    gCtx.strokeStyle = 'red'
+    gCtx.strokeStyle = 'black'
     gCtx.fillStyle = 'white'
-    gCtx.font = '40px Arial'
+    gCtx.font = '30px impact'
     gCtx.textAlign = 'center'
-    gCtx.fillText(text, x, y)
-    gCtx.strokeText(text, x, y)
+    gCtx.fillText(meme.lines[0].txt, x, y)
+    gCtx.strokeText(meme.lines[0].txt, x, y)
 }
