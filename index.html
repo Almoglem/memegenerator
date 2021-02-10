@@ -11,7 +11,12 @@
 
 <body onload="init()">
     <h1>meme generator</h1>
-    <canvas id="meme-canvas"></canvas>
+    <canvas id="meme-canvas" width="300" height="300"></canvas>
+    <label for="input-text">your text:</label>
+    <input type="text" id="input-text">
+    <button id="add-text-btn" onclick="onAddText()">add</button>
+    <button onclick="onClearCanvas()">clear</button>
+
     <script src="js/services/meme-service.js"></script>
     <script src="js/main.js"></script>
 </body>
