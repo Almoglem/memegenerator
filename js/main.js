@@ -45,17 +45,16 @@ function onChangeLineHeight(direction) {
 function onSwitchLine() {
     updateLineIdx();
     renderCanvas();
-    var elInput = document.getElementById('input-text');
-    elInput.value = '';
+    emptyInput();
 }
 
 function onClearText() {
-    emptyLines();
+    deleteAllLines();
     renderCanvas();
-    updateLineIdx('reset');
 }
 
 function onBack() {
+    document.querySelector('.download').classList.add('hidden');
     resetCanvas();
     toggleEditor();
 }
@@ -63,6 +62,7 @@ function onBack() {
 function onReady() {
     removeActiveLine();
     renderCanvas();
+    document.querySelector('.download').classList.remove('hidden');
 }
 
 function onDownloadCanvas(elLink) {
@@ -83,36 +83,36 @@ function toggleEditor() {
 }
 
 function addText() {
-    var text = document.getElementById('input-text').value;
     var line = getCurrLine();
+    if (!line) return;
+    var text = document.getElementById('input-text').value;
     line.txt = text;
     renderCanvas();
 }
 
 function drawText() {
     var lines = getgMemeLines();
-    for (var i = 0; i < lines.length; i++) {
+    lines.forEach(line => {
         gCtx.beginPath();
         gCtx.lineWidth = 2;
-        gCtx.strokeStyle = lines[i].stroke;
-        gCtx.fillStyle = lines[i].color;
-        gCtx.font = `${lines[i].size}px ${lines[i].font}`;
-        gCtx.textAlign = lines[i].align;
-        gCtx.fillText(lines[i].txt, lines[i].x, lines[i].y, gElCanvas.width);
-        gCtx.strokeText(lines[i].txt, lines[i].x, lines[i].y, gElCanvas.width);
-    }
+        gCtx.strokeStyle = line.stroke;
+        gCtx.fillStyle = line.color;
+        gCtx.font = `${line.size}px ${line.font}`;
+        gCtx.textAlign = line.align;
+        gCtx.fillText(line.txt, line.x, line.y, gElCanvas.width);
+        gCtx.strokeText(line.txt, line.x, line.y, gElCanvas.width);
+    });
 }
 
 function MarkCurrLine() {
     var currLine = getCurrLine();
     if (!currLine) return;
-    var lineWidth = parseInt(gCtx.measureText(currLine.txt).width);
+    var width = gCtx.measureText(currLine.txt).width;
     gCtx.beginPath();
-    gCtx.lineWidth = "2";
     gCtx.strokeStyle = "white";
-    var x = currLine.x - (lineWidth / 2)
+    var x = currLine.x - (width / 2);
     var y = currLine.y - currLine.size;
-    gCtx.rect(x - 10, y, lineWidth + 20, currLine.size + 10);
+    gCtx.rect(x - 10, y, width + 20, currLine.size + 10);
     gCtx.stroke();
 }
 
@@ -130,9 +130,26 @@ function renderCanvas() {
 }
 
 function resetCanvas() {
-    emptyLines();
+    resetLines();
     gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
     var elInput = document.getElementById('input-text');
     elInput.value = '';
 }
 
+
+function onAddLine() {
+    addLine();
+    emptyInput();
+    renderCanvas();
+}
+
+function onDeleteLine() {
+    deleteLine();
+    renderCanvas();
+}
+
+
+function emptyInput() {
+    var elInput = document.getElementById('input-text');
+    elInput.value = '';
+}

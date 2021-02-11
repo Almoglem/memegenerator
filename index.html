@@ -16,21 +16,23 @@
 
     <div class="editor hidden">
         <div class="canvas-container">
+            <button onclick="onBack()">🢇</button>
             <canvas id="meme-canvas" width="300" height="300"></canvas>
         </div>
         <div class="editor-options">
             <label for="input-text">your text:</label>
             <input type="text" id="input-text">
             <br>
-            <button onclick="onChangeFontSize('increase')">+</button>
-            <button onclick="onChangeFontSize('decrease')">-</button>
+            <button onclick="onAddLine()"> + </button>
+            <button onclick="onDeleteLine()">⌦</button>
+            <button onclick="onChangeFontSize('increase')">A+</button>
+            <button onclick="onChangeFontSize('decrease')">A-</button>
             <button onclick="onChangeLineHeight('up')">↑</button>
             <button onclick="onChangeLineHeight('down')">↓</button>
             <button id="add-text-btn" onclick="onSwitchLine()">↑↓</button>
-            <button onclick="onClearText()">clear all</button>
-            <button onclick="onBack()">back</button>
-            <button onclick="onReady()">i'm ready!</button>
-            <a href="#" onclick="onDownloadCanvas(this)" download="">Download</a>
+            <button onclick="onClearText()">reset</button>
+            <button onclick="onReady()">ready!</button>
+            <a href="#" onclick="onDownloadCanvas(this)" download="" class="hidden download">Download</a>
         </div>
     </div>
 

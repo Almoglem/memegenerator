@@ -13,6 +13,8 @@ var gImgs =
     { id: 12, url: 'img/memes-sqr/patrick-planning.jpg', keywords: ['patrick', 'evil', 'planning'] },
     ];
 
+var gCurrImgId;
+
 var gMeme = {
     selectedImgId: gCurrImgId,
     currLineIdx: 0,
@@ -20,17 +22,7 @@ var gMeme = {
         {
             x: 150,
             y: 40,
-            txt: '',
-            size: 30,
-            color: 'white',
-            stroke: 'black',
-            font: 'impact',
-            align: 'center'
-        },
-        {
-            x: 150,
-            y: 280,
-            txt: '',
+            txt: 'your line here!',
             size: 30,
             color: 'white',
             stroke: 'black',
@@ -39,8 +31,6 @@ var gMeme = {
         }
     ]
 }
-
-var gCurrImgId = null;
 
 
 ////////////  images   ////////////
@@ -68,17 +58,28 @@ function getCurrLine() {
     return gMeme.lines[gMeme.currLineIdx];
 }
 
-function emptyLines() {
-    var lines = gMeme.lines;
-    for (var i = 0; i < lines.length; i++) {
-        lines[i].txt = '';
-    }
+function resetLines() {
+    gMeme.lines = [{
+        x: 150,
+        y: 40,
+        txt: 'your line here!',
+        size: 30,
+        color: 'white',
+        stroke: 'black',
+        font: 'impact',
+        align: 'center'
+    }];
+    gMeme.currLineIdx = 0;
 }
 
-function updateLineIdx(isReset = false) {
-    if (isReset) gMeme.currLineIdx = 0;
-    else gMeme.currLineIdx = (gMeme.currLineIdx === 1) ? 0 : 1;
-    /// for now, until further line addition is supperted
+function deleteAllLines() {
+    gMeme.lines = [];
+    gMeme.currLineIdx = 0;
+}
+
+function updateLineIdx() {
+    gMeme.currLineIdx++;
+    if (gMeme.currLineIdx === gMeme.lines.length) gMeme.currLineIdx = 0;
 }
 
 function removeActiveLine() {
@@ -86,8 +87,13 @@ function removeActiveLine() {
 }
 
 function changeFontSize(action) {
-    var diff = action === 'increase' ? 5 : -5;
-    gMeme.lines[gMeme.currLineIdx].size += diff;
+    var currLine = gMeme.lines[gMeme.currLineIdx];
+    var diff = 5;
+    if (action === 'increase') currLine.size += diff;
+    else if (action === 'decrease') {
+        if (currLine.size < 20) return;
+        gMeme.lines[gMeme.currLineIdx].size -= diff;
+    }
 }
 
 function ChangeLineHeight(direction) {
@@ -97,3 +103,31 @@ function ChangeLineHeight(direction) {
 
 
 ////////////////////////////////////////////////////////////
+
+function addLine() {
+    var linesNum = gMeme.lines.length;
+    var y;
+    if (!linesNum) y = 40;
+    else if (linesNum === 1) y = 280;
+    else if (linesNum > 1) y = 150;
+    var newLine = {
+        x: 150,
+        y: y,
+        txt: 'your line here!',
+        size: 30,
+        color: 'white',
+        stroke: 'black',
+        font: 'impact',
+        align: 'center'
+    }
+    gMeme.lines.push(newLine);
+    gMeme.currLineIdx = gMeme.lines.length - 1;
+}
+
+function deleteLine() {
+    var idx = gMeme.currLineIdx;
+    gMeme.lines.splice(idx, 1);
+    gMeme.currLineIdx = idx - 1;
+    if (gMeme.currLineIdx < 0) gMeme.currLineIdx = 0;
+    emptyInput();
+}
