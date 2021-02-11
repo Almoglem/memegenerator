@@ -11,7 +11,16 @@ function init() {
 function addEventListeners() {
     var elInput = document.getElementById('input-text');
     elInput.addEventListener("keyup", addText);
+
+    //// if there are no lines, prevent typing and show 'add lines' message:
+    elInput.addEventListener("keydown", function (event) {
+        if (!getgMemeLines().length) {
+            event.preventDefault();
+            elInput.placeholder = 'add lines!';
+        }
+    });
 }
+
 
 //////////////// gallery ////////////////
 
@@ -68,7 +77,7 @@ function onReady() {
 function onDownloadCanvas(elLink) {
     const data = gElCanvas.toDataURL()
     elLink.href = data;
-    elLink.download = 'myMeme'
+    elLink.download = 'mySpongeMeme'
 }
 
 
@@ -76,10 +85,9 @@ function onDownloadCanvas(elLink) {
 
 
 function toggleEditor() {
-    var elEditor = document.querySelector('.editor');
-    var elGallery = document.querySelector('.gallery')
-    elEditor.classList.toggle('hidden');
-    elGallery.classList.toggle('hidden');
+    document.querySelector('.editor').classList.toggle('hidden');
+    document.querySelector('.gallery').classList.toggle('hidden');
+
 }
 
 function addText() {
@@ -138,6 +146,7 @@ function resetCanvas() {
 
 
 function onAddLine() {
+    document.querySelector('#input-text').placeholder = '';
     addLine();
     emptyInput();
     renderCanvas();
