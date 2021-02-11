@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meme Generator</title>
+    <title>Spongebob MemeGen</title>
     <link rel="stylesheet" href="styles/style.css">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
 </head>
 
 <body onload="init()">
-    <h1> Spongebob MemeGen</h1>
+    <h1>🧽SpongeMeme🐚</h1>
 
 
     <div class="editor hidden">
@@ -20,10 +21,16 @@
         <div class="editor-options">
             <label for="input-text">your text:</label>
             <input type="text" id="input-text">
+            <br>
+            <button onclick="onChangeFontSize('increase')">+</button>
+            <button onclick="onChangeFontSize('decrease')">-</button>
+            <button onclick="onChangeLineHeight('up')">↑</button>
+            <button onclick="onChangeLineHeight('down')">↓</button>
             <button id="add-text-btn" onclick="onSwitchLine()">↑↓</button>
-            <button onclick="clearText()">clear all</button>
+            <button onclick="onClearText()">clear all</button>
             <button onclick="onBack()">back</button>
-            <a href="#" onclick="downloadCanvas(this)" download="">Download</a>
+            <button onclick="onReady()">i'm ready!</button>
+            <a href="#" onclick="onDownloadCanvas(this)" download="">Download</a>
         </div>
     </div>
 

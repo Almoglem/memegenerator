@@ -1,11 +1,28 @@
+@font-face {
+    src: url('fonts/spongebob.ttf');
+    font-family: 'spongebob';
+}
+
 * {
     box-sizing: border-box;
 }
 
+
 body {
-    background-color: blanchedalmond;
+    background-color: #4fa0c0;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'spongebob';
+    color: aliceblue;
+    letter-spacing: 0.2rem;
 }
 
 .editor {
@@ -24,7 +41,6 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     grid-template-rows: repeat(3, 1fr);
     gap: 10px;
-    height: 400px;
     width: 800px;
 }
 
@@ -42,7 +58,7 @@ body {
 
 @media (max-width: 1200px) {
     .gallery {
-        width: 600px;
+        width: 550px;
     }
 }
 
@@ -50,7 +66,7 @@ body {
 
 @media (max-width: 680px) {
     .gallery {
-        width: 400px;
+        width: 300px;
     }
 
     .editor {

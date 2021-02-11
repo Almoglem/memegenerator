@@ -18,6 +18,7 @@ var gMeme = {
     currLineIdx: 0,
     lines: [
         {
+            x: 150,
             y: 40,
             txt: '',
             size: 30,
@@ -27,6 +28,7 @@ var gMeme = {
             align: 'center'
         },
         {
+            x: 150,
             y: 280,
             txt: '',
             size: 30,
@@ -40,6 +42,9 @@ var gMeme = {
 
 var gCurrImgId = null;
 
+
+////////////  images   ////////////
+
 function getImgsForDisplay() {
     return gImgs;
 }
@@ -47,6 +52,13 @@ function getImgsForDisplay() {
 function setgImg(id) {
     gCurrImgId = id;
 }
+
+function getImgById(id) {
+    return gImgs.find(img => img.id === id);
+}
+
+
+//////////// lines related functions ////////////
 
 function getgMemeLines() {
     return gMeme.lines;
@@ -56,12 +68,32 @@ function getCurrLine() {
     return gMeme.lines[gMeme.currLineIdx];
 }
 
+function emptyLines() {
+    var lines = gMeme.lines;
+    for (var i = 0; i < lines.length; i++) {
+        lines[i].txt = '';
+    }
+}
+
 function updateLineIdx(isReset = false) {
     if (isReset) gMeme.currLineIdx = 0;
     else gMeme.currLineIdx = (gMeme.currLineIdx === 1) ? 0 : 1;
     /// for now, until further line addition is supperted
 }
 
-function getImgById(id) {
-    return gImgs.find(img => img.id === id);
+function removeActiveLine() {
+    gMeme.currLineIdx = null;
 }
+
+function changeFontSize(action) {
+    var diff = action === 'increase' ? 5 : -5;
+    gMeme.lines[gMeme.currLineIdx].size += diff;
+}
+
+function ChangeLineHeight(direction) {
+    var diff = direction === 'up' ? -5 : 5;
+    gMeme.lines[gMeme.currLineIdx].y += diff;
+}
+
+
+////////////////////////////////////////////////////////////
