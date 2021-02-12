@@ -112,7 +112,6 @@ function onClearText() {
 }
 
 function onBack() {
-    document.querySelector('.download').classList.add('hidden');
     resetCanvas();
     toggleEditor();
 }

@@ -13,7 +13,7 @@ html {
 
 body {
     background-color: #9fbcdf;
-    background-image: url('../img/bubbles2.png');
+    background-image: url('../img/bubbles.png');
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -32,6 +32,16 @@ h6 {
     letter-spacing: 0.2rem;
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
 .editor {
     display: flex;
     align-items: center;
@@ -42,17 +52,6 @@ h6 {
     max-width: 200px;
 }
 
-button {
-    border: none;
-    cursor: pointer;
-}
-
-.back-btn {
-    font-size: 2rem;
-    font-weight: 900;
-    background-color: inherit;
-}
-
 .editor-options button {
     font-size: 1.2rem;
     height: 2rem;
@@ -61,9 +60,18 @@ button {
     background-color: aliceblue;
 }
 
-body {
-    color: #ffffff9d;
+.back-btn {
+    font-size: 2rem;
+    font-weight: 900;
+    background-color: inherit;
 }
+
+.icon {
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
+
 
 .gallery {
     margin: auto;
