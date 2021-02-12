@@ -100,11 +100,6 @@ function changeFontSize(action) {
     }
 }
 
-function ChangeLineHeight(direction) {
-    var diff = direction === 'up' ? -5 : 5;
-    gMeme.lines[gMeme.activeLineIdx].y += diff;
-}
-
 function updateLineWidth(width) {
     gMeme.lines[gMeme.activeLineIdx].width = width;
 }

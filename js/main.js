@@ -91,11 +91,6 @@ function onChangeFontSize(action) {
     renderCanvas();
 }
 
-function onChangeLineHeight(direction) {
-    if (!getActiveLine()) return;
-    ChangeLineHeight(direction);
-    renderCanvas();
-}
 
 function onAddLine() {
     document.querySelector('#input-text').placeholder = '';
@@ -144,7 +139,7 @@ function drawText() {
     var lines = getgMemeLines();
     lines.forEach(line => {
         gCtx.beginPath();
-        gCtx.lineWidth = 2;
+        gCtx.lineWidth = 1.5;
         gCtx.strokeStyle = line.stroke;
         gCtx.fillStyle = line.color;
         gCtx.font = `${line.size}px ${line.font}`;
@@ -163,7 +158,7 @@ function MarkActiveLine() {
     updateLineWidth(width);
 
     gCtx.beginPath();
-    gCtx.strokeStyle = "#ffffff9d";
+    gCtx.strokeStyle = "white";
     var x = line.x - (line.width / 2);
     var y = line.y - line.size;
     gCtx.rect(x - 10, y, line.width + 20, line.size + 10);
@@ -174,10 +169,10 @@ function MarkActiveLine() {
 ///////////////// line dragging related functions ////////////////////
 
 function onDown(ev) {
+    emptyInput();
     const pos = getEvPos(ev);
     if (!lineClicked(pos)) return;
     gStartPos = pos;
-    emptyInput();
 }
 
 function onMove(ev) {
