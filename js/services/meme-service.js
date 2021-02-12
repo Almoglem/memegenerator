@@ -20,9 +20,9 @@ var gMeme = {
     currLineIdx: 0,
     lines: [
         {
-            x: 150,
+            x: gCanvasSize / 2,
             y: 40,
-            txt: 'your line here!',
+            txt: 'your line goes here!',
             size: 30,
             color: 'white',
             stroke: 'black',
@@ -31,6 +31,8 @@ var gMeme = {
         }
     ]
 }
+
+var gCanvasSize = 300;
 
 
 ////////////  images   ////////////
@@ -60,9 +62,9 @@ function getCurrLine() {
 
 function resetLines() {
     gMeme.lines = [{
-        x: 150,
+        x: gCanvasSize / 2,
         y: 40,
-        txt: 'your line here!',
+        txt: 'your line goes here!',
         size: 30,
         color: 'white',
         stroke: 'black',
@@ -111,9 +113,9 @@ function addLine() {
     else if (linesNum === 1) y = 280;
     else if (linesNum > 1) y = 150;
     var newLine = {
-        x: 150,
+        x: gCanvasSize / 2,
         y: y,
-        txt: 'your line here!',
+        txt: 'your line goes here!',
         size: 30,
         color: 'white',
         stroke: 'black',

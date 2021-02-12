@@ -13,17 +13,16 @@
 <body onload="init()">
     <h1>SpongeMeme🧽</h1>
 
-
     <div class="editor hidden">
         <div class="canvas-container">
-            <button onclick="onBack()">🢇</button>
+            <button class="back-btn" onclick="onBack()">↵</button>
             <canvas id="meme-canvas" width="300" height="300"></canvas>
         </div>
         <div class="editor-options">
             <input type="text" id="input-text">
             <br>
             <button onclick="onAddLine()"> + </button>
-            <button onclick="onDeleteLine()">⌦</button>
+            <button onclick="onDeleteLine()">⌧</button>
             <button onclick="onChangeFontSize('increase')">A+</button>
             <button onclick="onChangeFontSize('decrease')">A-</button>
             <button onclick="onChangeLineHeight('up')">↑</button>

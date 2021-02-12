@@ -21,7 +21,6 @@ function addEventListeners() {
     });
 }
 
-
 //////////////// gallery ////////////////
 
 function renderImages() {
@@ -37,7 +36,6 @@ function onSetImg(id) {
     renderCanvas();
     toggleEditor();
 }
-
 
 //////////////// editor controllers ////////////////
 
@@ -59,6 +57,7 @@ function onSwitchLine() {
 
 function onClearText() {
     deleteAllLines();
+    emptyInput();
     renderCanvas();
 }
 
@@ -113,14 +112,16 @@ function drawText() {
 }
 
 function MarkCurrLine() {
-    var currLine = getCurrLine();
-    if (!currLine) return;
-    var width = gCtx.measureText(currLine.txt).width;
+    var line = getCurrLine();
+    if (!line) return;
+    gCtx.font = `${line.size}px ${line.font}`;
+
+    var width = gCtx.measureText(line.txt).width;
     gCtx.beginPath();
-    gCtx.strokeStyle = "white";
-    var x = currLine.x - (width / 2);
-    var y = currLine.y - currLine.size;
-    gCtx.rect(x - 10, y, width + 20, currLine.size + 10);
+    gCtx.strokeStyle = "#ffffff9d";
+    var x = line.x - (width / 2);
+    var y = line.y - line.size;
+    gCtx.rect(x - 10, y, width + 20, line.size + 10);
     gCtx.stroke();
 }
 
@@ -144,7 +145,6 @@ function resetCanvas() {
     elInput.value = '';
 }
 
-
 function onAddLine() {
     document.querySelector('#input-text').placeholder = '';
     addLine();
@@ -156,7 +156,6 @@ function onDeleteLine() {
     deleteLine();
     renderCanvas();
 }
-
 
 function emptyInput() {
     var elInput = document.getElementById('input-text');
