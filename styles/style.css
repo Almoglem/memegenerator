@@ -13,6 +13,7 @@ html {
 
 body {
     background-color: #9fbcdf;
+    background-image: url('../img/bubbles2.png');
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -24,7 +25,10 @@ h4,
 h5,
 h6 {
     font-family: 'spongebob';
-    color: rgb(238, 219, 46);
+    color: rgb(238, 203, 46);
+    text-shadow: 3px 3px 0 #4074b5, 3px -3px 0 #4074b5, -3px 3px 0 #4074b5,
+        -3px -3px 0 #4074b5, 3px 0px 0 #4074b5, 0px 3px 0 #4074b5,
+        -3px 0px 0 #4074b5, 0px -3px 0 #4074b5;
     letter-spacing: 0.2rem;
 }
 
@@ -53,7 +57,7 @@ button {
     font-size: 1.2rem;
     height: 2rem;
     min-width: 2.2rem;
-    margin: 2px;
+    margin: 3px;
     background-color: aliceblue;
 }
 
@@ -73,8 +77,13 @@ body {
 .gallery img {
     height: 100%;
     width: 100%;
-    border-radius: 10px;
+    /* border-radius: 10px; */
+    box-shadow: 0px 0px 12px 1px #244e81;
     cursor: pointer;
+}
+
+.gallery img:hover {
+    box-shadow: 0px 0px 0px 3px #c2d0e0;
 }
 
 /* helpers */

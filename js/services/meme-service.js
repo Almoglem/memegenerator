@@ -14,26 +14,13 @@ var gImgs =
     ];
 
 var gCurrImgId;
+var gCanvasSize = 300;
 
 var gMeme = {
     selectedImgId: gCurrImgId,
     currLineIdx: 0,
-    lines: [
-        {
-            x: gCanvasSize / 2,
-            y: 40,
-            txt: 'your line goes here!',
-            size: 30,
-            color: 'white',
-            stroke: 'black',
-            font: 'impact',
-            align: 'center'
-        }
-    ]
+    lines: [createLine(40)]
 }
-
-var gCanvasSize = 300;
-
 
 ////////////  images   ////////////
 
@@ -52,6 +39,8 @@ function getImgById(id) {
 
 //////////// lines related functions ////////////
 
+///get & create
+
 function getgMemeLines() {
     return gMeme.lines;
 }
@@ -60,32 +49,43 @@ function getCurrLine() {
     return gMeme.lines[gMeme.currLineIdx];
 }
 
-function resetLines() {
-    gMeme.lines = [{
+function createLine(yPos) {
+    return {
         x: gCanvasSize / 2,
-        y: 40,
+        y: yPos,
         txt: 'your line goes here!',
         size: 30,
         color: 'white',
         stroke: 'black',
         font: 'impact',
         align: 'center'
-    }];
-    gMeme.currLineIdx = 0;
+    };
 }
 
-function deleteAllLines() {
+///deletions & resets
+
+function resetLines(state) {
     gMeme.lines = [];
+    if (state === 'initial') gMeme.lines.push(createLine(40));
     gMeme.currLineIdx = 0;
 }
 
-function updateLineIdx() {
-    gMeme.currLineIdx++;
-    if (gMeme.currLineIdx === gMeme.lines.length) gMeme.currLineIdx = 0;
+function deleteLine() {
+    var idx = gMeme.currLineIdx;
+    gMeme.lines.splice(idx, 1);
+    gMeme.currLineIdx = idx - 1;
+    if (gMeme.currLineIdx < 0) gMeme.currLineIdx = 0;
+    emptyInput();
 }
 
 function removeActiveLine() {
     gMeme.currLineIdx = null;
+}
+
+// updates & changes
+
+function updateActiveLine(idx) {
+    gMeme.currLineIdx = idx;
 }
 
 function changeFontSize(action) {
@@ -103,33 +103,20 @@ function ChangeLineHeight(direction) {
     gMeme.lines[gMeme.currLineIdx].y += diff;
 }
 
+function updateLineWidth(width) {
+    gMeme.lines[gMeme.currLineIdx].width = width;
+}
 
-////////////////////////////////////////////////////////////
+//// new line addition 
 
 function addLine() {
     var linesNum = gMeme.lines.length;
-    var y;
-    if (!linesNum) y = 40;
-    else if (linesNum === 1) y = 280;
-    else if (linesNum > 1) y = 150;
-    var newLine = {
-        x: gCanvasSize / 2,
-        y: y,
-        txt: 'your line goes here!',
-        size: 30,
-        color: 'white',
-        stroke: 'black',
-        font: 'impact',
-        align: 'center'
-    }
+    var yPos;
+    if (linesNum < 1) yPos = 40;
+    else if (linesNum === 1) yPos = 280;
+    else if (linesNum > 1) yPos = 150;
+
+    var newLine = createLine(yPos);
     gMeme.lines.push(newLine);
     gMeme.currLineIdx = gMeme.lines.length - 1;
-}
-
-function deleteLine() {
-    var idx = gMeme.currLineIdx;
-    gMeme.lines.splice(idx, 1);
-    gMeme.currLineIdx = idx - 1;
-    if (gMeme.currLineIdx < 0) gMeme.currLineIdx = 0;
-    emptyInput();
 }
