@@ -1,5 +1,6 @@
 var gElCanvas;
 var gCtx;
+var gStartPos;
 
 var gTouchEvs = ['touchstart', 'touchmove', 'touchend'];
 
@@ -10,54 +11,41 @@ function init() {
     addEventListeners();
 }
 
+///////////////// event listeners ////////////////////
+
 function addEventListeners() {
     addMouseListeners();
+    addTouchListeners();
 
     var elInput = document.getElementById('input-text');
     elInput.addEventListener("keyup", addText);
-
-    //// if there are no lines/active lines, prevent typing and show message:
     elInput.addEventListener("keydown", function (event) {
-        if (!getgMemeLines().length) {
+        if (!getActiveLine()) {
             event.preventDefault();
-            elInput.placeholder = 'add lines!';
-        }
-        else if (!getCurrLine()) {
-            event.preventDefault();
-            elInput.placeholder = 'choose a line!';
+            elInput.placeholder = 'no line selected!';
         }
     });
 }
 
 function addMouseListeners() {
-    gElCanvas.addEventListener('mousedown', onDown)
+    gElCanvas.addEventListener('mousedown', onDown);
+    gElCanvas.addEventListener('mousemove', onMove);
+    gElCanvas.addEventListener('mouseup', onUp);
 }
 
-function onDown(ev) {
-    emptyInput();
-    const pos = getEvPos(ev);
-    if (!lineClicked(pos)) return;
+function addTouchListeners() {
+    gElCanvas.addEventListener('touchmove', onMove);
+    gElCanvas.addEventListener('touchstart', onDown);
+    gElCanvas.addEventListener('touchend', onUp);
 }
 
-
-function lineClicked(pos) {
-    var lines = getgMemeLines();
-    var clickedLineIdx = lines.findIndex(line => {
-        return pos.x > line.x - (line.width / 2) - 10
-            && pos.x < line.x + (line.width / 2) + 10
-            && pos.y > line.y - line.size
-            && pos.y < gElCanvas.height - (gElCanvas.height - line.y - 10)
-    });
-    updateActiveLine(clickedLineIdx);
-    renderCanvas();
-}
-
-//////////////// gallery ////////////////
+//////////////// gallery & editor rendering or toggling ////////////////
 
 function renderImages() {
     images = getImgsForDisplay();
     var strHTMLs = images.map(img => {
-        return `<div class="gallery-item ${img.id}" onclick="onSetImg(${img.id})"> <img src="./${img.url}" alt=""> </div>`
+        return `<div class="gallery-item ${img.id}" onclick="onSetImg(${img.id})">
+        <img src="./${img.url}" alt=""></div>`
     });
     document.querySelector('.gallery').innerHTML = strHTMLs.join('');
 }
@@ -68,16 +56,43 @@ function onSetImg(id) {
     toggleEditor();
 }
 
+function toggleEditor() {
+    document.querySelector('.editor').classList.toggle('hidden');
+    document.querySelector('.gallery').classList.toggle('hidden');
+}
+
+
+//////////////// canvas ////////////////
+
+function renderCanvas() {
+    const img = new Image();
+    var currImg = getImgById(gCurrImgId);
+    img.src = `./${currImg.url}`;
+    img.onload = () => {
+        gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
+        drawText();
+        MarkActiveLine();
+    }
+}
+
+function resetCanvas() {
+    resetLines('initial');
+    gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
+    var elInput = document.getElementById('input-text');
+    elInput.value = '';
+}
+
+
 //////////////// editor controllers ////////////////
 
 function onChangeFontSize(action) {
-    if (!getCurrLine()) return;
+    if (!getActiveLine()) return;
     changeFontSize(action);
     renderCanvas();
 }
 
 function onChangeLineHeight(direction) {
-    if (!getCurrLine()) return;
+    if (!getActiveLine()) return;
     ChangeLineHeight(direction);
     renderCanvas();
 }
@@ -90,7 +105,7 @@ function onAddLine() {
 }
 
 function onDeleteLine() {
-    if (!getCurrLine()) return;
+    if (!getActiveLine()) return;
     deleteLine();
     renderCanvas();
 }
@@ -107,11 +122,6 @@ function onBack() {
     toggleEditor();
 }
 
-function onReady() {
-    removeActiveLine();
-    renderCanvas();
-    document.querySelector('.download').classList.remove('hidden');
-}
 
 function onDownloadCanvas(elLink) {
     const data = gElCanvas.toDataURL()
@@ -120,17 +130,10 @@ function onDownloadCanvas(elLink) {
 }
 
 
-/////////////////////////////////////
-
-
-function toggleEditor() {
-    document.querySelector('.editor').classList.toggle('hidden');
-    document.querySelector('.gallery').classList.toggle('hidden');
-
-}
+/////////////////text change & mark////////////////////
 
 function addText() {
-    var line = getCurrLine();
+    var line = getActiveLine();
     if (!line) return;
     var text = document.getElementById('input-text').value;
     line.txt = text;
@@ -151,8 +154,8 @@ function drawText() {
     });
 }
 
-function MarkCurrLine() {
-    var line = getCurrLine();
+function MarkActiveLine() {
+    var line = getActiveLine();
     if (!line) return;
 
     gCtx.font = `${line.size}px ${line.font}`;
@@ -167,33 +170,52 @@ function MarkCurrLine() {
     gCtx.stroke();
 }
 
-//////////////// canvas ////////////////
 
-function renderCanvas() {
-    const img = new Image();
-    var currImg = getImgById(gCurrImgId);
-    img.src = `./${currImg.url}`;
-    img.onload = () => {
-        gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
-        drawText();
-        MarkCurrLine();
+///////////////// line dragging related functions ////////////////////
+
+function onDown(ev) {
+    const pos = getEvPos(ev);
+    if (!lineClicked(pos)) return;
+    gStartPos = pos;
+    emptyInput();
+}
+
+function onMove(ev) {
+    var activeLine = getActiveLine();
+    if (activeLine && activeLine.isDragging) {
+        const pos = getEvPos(ev);
+        const dx = pos.x - gStartPos.x;
+        const dy = pos.y - gStartPos.y;
+
+        activeLine.x += dx
+        activeLine.y += dy
+
+        gStartPos = pos;
+        renderCanvas();
     }
 }
 
-function resetCanvas() {
-    resetLines('initial');
-    gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
-    var elInput = document.getElementById('input-text');
-    elInput.value = '';
+function onUp() {
+    document.body.style.cursor = 'default';
+    var activeLine = getActiveLine();
+    if (!activeLine) return;
+    activeLine.isDragging = false;
 }
 
-//////////// other
-
-function emptyInput() {
-    var elInput = document.getElementById('input-text');
-    elInput.value = '';
+function lineClicked(pos) {
+    var lines = getgMemeLines();
+    var clickedLineIdx = lines.findIndex(line => {
+        return pos.x > line.x - (line.width / 2) - 10
+            && pos.x < line.x + (line.width / 2) + 10
+            && pos.y > line.y - line.size
+            && pos.y < gElCanvas.height - (gElCanvas.height - line.y - 10)
+    });
+    updateActiveLine(clickedLineIdx);
+    renderCanvas();
+    document.body.style.cursor = 'grabbing';
+    if (clickedLineIdx === -1) return false;
+    else return true;
 }
-
 
 function getEvPos(ev) {
     var pos = {
@@ -209,4 +231,13 @@ function getEvPos(ev) {
         }
     }
     return pos
+}
+
+
+//////////// others/general
+
+function emptyInput() {
+    var elInput = document.getElementById('input-text');
+    elInput.value = '';
+    elInput.placeholder = '';
 }

@@ -18,7 +18,7 @@ var gCanvasSize = 300;
 
 var gMeme = {
     selectedImgId: gCurrImgId,
-    currLineIdx: 0,
+    activeLineIdx: 0,
     lines: [createLine(40)]
 }
 
@@ -45,8 +45,8 @@ function getgMemeLines() {
     return gMeme.lines;
 }
 
-function getCurrLine() {
-    return gMeme.lines[gMeme.currLineIdx];
+function getActiveLine() {
+    return gMeme.lines[gMeme.activeLineIdx];
 }
 
 function createLine(yPos) {
@@ -58,7 +58,8 @@ function createLine(yPos) {
         color: 'white',
         stroke: 'black',
         font: 'impact',
-        align: 'center'
+        align: 'center',
+        isDragging: false
     };
 }
 
@@ -67,44 +68,45 @@ function createLine(yPos) {
 function resetLines(state) {
     gMeme.lines = [];
     if (state === 'initial') gMeme.lines.push(createLine(40));
-    gMeme.currLineIdx = 0;
+    gMeme.activeLineIdx = 0;
 }
 
 function deleteLine() {
-    var idx = gMeme.currLineIdx;
+    var idx = gMeme.activeLineIdx;
     gMeme.lines.splice(idx, 1);
-    gMeme.currLineIdx = idx - 1;
-    if (gMeme.currLineIdx < 0) gMeme.currLineIdx = 0;
+    gMeme.activeLineIdx = idx - 1;
+    if (gMeme.activeLineIdx < 0) gMeme.activeLineIdx = 0;
     emptyInput();
-}
-
-function removeActiveLine() {
-    gMeme.currLineIdx = null;
 }
 
 // updates & changes
 
 function updateActiveLine(idx) {
-    gMeme.currLineIdx = idx;
+    if (idx === -1) {
+        gMeme.activeLineIdx = null;
+        return;
+    }
+    gMeme.activeLineIdx = idx;
+    gMeme.lines[idx].isDragging = true;
 }
 
 function changeFontSize(action) {
-    var currLine = gMeme.lines[gMeme.currLineIdx];
+    var currLine = gMeme.lines[gMeme.activeLineIdx];
     var diff = 5;
     if (action === 'increase') currLine.size += diff;
     else if (action === 'decrease') {
         if (currLine.size < 20) return;
-        gMeme.lines[gMeme.currLineIdx].size -= diff;
+        gMeme.lines[gMeme.activeLineIdx].size -= diff;
     }
 }
 
 function ChangeLineHeight(direction) {
     var diff = direction === 'up' ? -5 : 5;
-    gMeme.lines[gMeme.currLineIdx].y += diff;
+    gMeme.lines[gMeme.activeLineIdx].y += diff;
 }
 
 function updateLineWidth(width) {
-    gMeme.lines[gMeme.currLineIdx].width = width;
+    gMeme.lines[gMeme.activeLineIdx].width = width;
 }
 
 //// new line addition 
@@ -118,5 +120,5 @@ function addLine() {
 
     var newLine = createLine(yPos);
     gMeme.lines.push(newLine);
-    gMeme.currLineIdx = gMeme.lines.length - 1;
+    gMeme.activeLineIdx = gMeme.lines.length - 1;
 }
