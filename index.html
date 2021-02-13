@@ -20,7 +20,16 @@
     </header>
 
 
-    <!-- <div>filter by: 🦀🦑🧽⭐</div> -->
+    <div class="filter-container">
+        <p class="filter-line">filter by:
+            <span class="filter-item" onclick="onFilterBy('krabs')">🦀</span>
+            <span class="filter-item" onclick="onFilterBy('spongebob')">🧽</span>
+            <span class="filter-item" onclick="onFilterBy('squidward')">🦑</span>
+            <span class="filter-item" onclick="onFilterBy('patrick')">⭐</span>
+            <span class="filter-item all" onclick="onFilterBy('all')">all</span>
+        </p>
+
+    </div>
 
     <div class="editor-container hidden">
         <div class="editor">
@@ -53,7 +62,7 @@
                 <a href="#" onclick="onDownloadCanvas(this)" download="" class="download">
                     <img src="img/icons/download.png" alt="" class="icon"></a>
             </div>
-            <span class="back" onclick="onBack()">🡿</span>
+            <span class="back" onclick="onBack()">↩</span>
         </div>
     </div>
 
@@ -62,14 +71,27 @@
 
     <footer id="footer">
         <div class="footer-container">
-            <img src="img/me.jpg" alt="" class="my-image">
-            <p class="about-p"> <span class="sponge-symbols-small">=</span> Hey there! nice to meet you. I'm Almog, a
-                web
-                developer. I'm a coding academy graduate
-                to be- an
-                intensive
-                (640 hours) and selective coding bootcamp that qualifies web developers. passionate about everything web
-                development, frond end to back end, and about learning new technologies. </p>
+            <div><img src="img/me.jpg" alt="" class="my-image"> <br>
+                <span> <a href="https://github.com/Almoglem"><img src="img/icons/github.png" alt=""
+                            class="social-icon"></a>
+                    <a href="https://www.facebook.com/profile.php?id=100009758524201"><img src="img/icons/facebook.png"
+                            alt="" class="social-icon"></a>
+                    <a href="https://www.linkedin.com/in/almog-lemberg-a4180619a/"><img src="img/icons/linkedin.png"
+                            alt="" class="social-icon"></a>
+                </span>
+            </div>
+
+            <div class="about-paragraph">
+                <p>
+                    <span class="sponge-symbols-small">=</span>
+                    Hey there! nice to meet you. I'm Almog, a web developer.
+                    I'm a coding academy graduate to be- an intensive
+                    (640 hours) and selective coding bootcamp that qualifies web developers.
+                    passionate about everything web development, frond end to back end, and about learning new
+                    technologies. I hope you enjoy SpongeMeme, where you can create your very own
+                    spongebob memes easily.
+                </p>
+            </div>
         </div>
     </footer>
 

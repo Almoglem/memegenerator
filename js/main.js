@@ -62,10 +62,17 @@ function onSetImg(id) {
     toggleEditor();
 }
 
+function onFilterBy(filter) {
+    setFilter(filter);
+    renderImages();
+}
+
 function toggleEditor() {
     document.querySelector('.editor-container').classList.toggle('hidden');
     document.querySelector('.gallery').classList.toggle('hidden');
+    document.querySelector('.filter-container').classList.toggle('hidden');
     document.querySelector('.footer-container').classList.toggle('hidden');
+
 }
 
 

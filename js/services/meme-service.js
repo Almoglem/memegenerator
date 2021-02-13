@@ -6,15 +6,24 @@ var gImgs =
     { id: 5, url: 'img/memes-sqr/krabs-sado.jpg', keywords: ['krabs'] },
     { id: 6, url: 'img/memes-sqr/krabs-wack.jpg', keywords: ['krabs', 'cool'] },
     { id: 7, url: 'img/memes-sqr/krabs-crazy.jpg', keywords: ['krabs', 'crazy'] },
-    { id: 8, url: 'img/memes-sqr/squidward-watching.jpg', keywords: ['squidward', 'lonely', 'watching'] },
+    { id: 8, url: 'img/memes-sqr/squidward-watching.jpg', keywords: ['squidward', 'lonely', 'watching', 'patrick', 'spongebob'] },
     { id: 9, url: 'img/memes-sqr/squidward-leaving.jpg', keywords: ['squidward', 'leaving'] },
     { id: 10, url: 'img/memes-sqr/squidward-loser.jpg', keywords: ['squidward', 'loser'] },
     { id: 11, url: 'img/memes-sqr/squidward-shy.jpg', keywords: ['squidward', 'shy'] },
     { id: 12, url: 'img/memes-sqr/patrick-planning.jpg', keywords: ['patrick', 'evil', 'planning'] },
+    { id: 13, url: 'img/memes-sqr/patrick-stupid.jpg', keywords: ['patrick', 'stupid'] },
+    { id: 14, url: 'img/memes-sqr/spongebob-worshiping.jpg', keywords: ['spongebob', 'worshiping'] },
+    { id: 15, url: 'img/memes-sqr/patrick-naked.png', keywords: ['patrick', 'naked'] },
+    { id: 16, url: 'img/memes-sqr/spongebob-coffin.jpg', keywords: ['spongebob', 'patrick', 'coffin'] },
+    { id: 17, url: 'img/memes-sqr/spongebob-treasure.jpg', keywords: ['spongebob', 'treasure'] },
+    { id: 18, url: 'img/memes-sqr/patrick-yelling.jpeg', keywords: ['patrick', 'yelling'] },
+    { id: 19, url: 'img/memes-sqr/spongebob-laughing.jpg', keywords: ['spongebob', 'laughing'] },
+    { id: 20, url: 'img/memes-sqr/patrick-trumpet.jpg', keywords: ['patrick', 'trumpet'] },
     ];
 
 var gCurrImgId;
 var gCanvasSize = 300;
+var gFilter = 'all';
 
 var gMeme = {
     selectedImgId: gCurrImgId,
@@ -26,7 +35,15 @@ var gMeme = {
 ////////////  images   ////////////
 
 function getImgsForDisplay() {
-    return gImgs;
+    if (gFilter === 'all') return gImgs;
+    var imgs = gImgs.filter(img => {
+        return img.keywords.some(keyword => keyword === gFilter);
+    });
+    return imgs;
+}
+
+function setFilter(filter) {
+    gFilter = filter;
 }
 
 function setgImg(id) {
