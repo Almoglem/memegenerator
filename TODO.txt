@@ -1,2 +1,3 @@
 add stickers
 add search
+saved memes gallery with local storage
