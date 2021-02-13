@@ -22,6 +22,7 @@ var gMeme = {
     lines: [createLine(40)]
 }
 
+
 ////////////  images   ////////////
 
 function getImgsForDisplay() {
@@ -53,10 +54,10 @@ function createLine(yPos) {
     return {
         x: gCanvasSize / 2,
         y: yPos,
-        txt: 'your line goes here!',
+        txt: '',
         size: 30,
-        color: 'white',
-        stroke: 'black',
+        color: '#ffffff',
+        stroke: '#000000',
         font: 'impact',
         align: 'center',
         isDragging: false
@@ -76,7 +77,7 @@ function deleteLine() {
     gMeme.lines.splice(idx, 1);
     gMeme.activeLineIdx = idx - 1;
     if (gMeme.activeLineIdx < 0) gMeme.activeLineIdx = 0;
-    emptyInput();
+    // emptyInput();
 }
 
 // updates & changes
@@ -90,6 +91,10 @@ function updateActiveLine(idx) {
     gMeme.lines[idx].isDragging = true;
 }
 
+function setFont(fontFamily) {
+    gMeme.lines[gMeme.activeLineIdx].font = fontFamily;
+}
+
 function changeFontSize(action) {
     var currLine = gMeme.lines[gMeme.activeLineIdx];
     var diff = 5;
@@ -98,6 +103,14 @@ function changeFontSize(action) {
         if (currLine.size < 20) return;
         gMeme.lines[gMeme.activeLineIdx].size -= diff;
     }
+}
+
+function changeTextColor(hex) {
+    gMeme.lines[gMeme.activeLineIdx].color = hex;
+}
+
+function changeStrokeColor(hex) {
+    gMeme.lines[gMeme.activeLineIdx].stroke = hex;
 }
 
 function updateLineWidth(width) {

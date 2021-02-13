@@ -14,17 +14,19 @@ function init() {
 ///////////////// event listeners ////////////////////
 
 function addEventListeners() {
+    window.addEventListener('keydown', function (event) {
+        if (getActiveLine()) handleInlineInput(event);
+    });
     addMouseListeners();
     addTouchListeners();
-
-    var elInput = document.getElementById('input-text');
-    elInput.addEventListener("keyup", addText);
-    elInput.addEventListener("keydown", function (event) {
-        if (!getActiveLine()) {
-            event.preventDefault();
-            elInput.placeholder = 'no line selected!';
-        }
-    });
+    // var elInput = document.getElementById('input-text');
+    // elInput.addEventListener('keyup', addText);
+    // elInput.addEventListener('keydown', function (event) {
+    //     if (!getActiveLine()) {
+    //         event.preventDefault();
+    //         elInput.placeholder = 'no line selected!';
+    //     }
+    // });
 }
 
 function addMouseListeners() {
@@ -57,7 +59,7 @@ function onSetImg(id) {
 }
 
 function toggleEditor() {
-    document.querySelector('.editor').classList.toggle('hidden');
+    document.querySelector('.editor-container').classList.toggle('hidden');
     document.querySelector('.gallery').classList.toggle('hidden');
 }
 
@@ -72,6 +74,7 @@ function renderCanvas() {
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
         drawText();
         MarkActiveLine();
+        gCtx.setLineDash([]);
     }
 }
 
@@ -85,17 +88,12 @@ function resetCanvas() {
 
 //////////////// editor controllers ////////////////
 
-function onChangeFontSize(action) {
-    if (!getActiveLine()) return;
-    changeFontSize(action);
-    renderCanvas();
-}
 
 
 function onAddLine() {
-    document.querySelector('#input-text').placeholder = '';
+    // document.querySelector('#input-text').placeholder = '';
     addLine();
-    emptyInput();
+    // emptyInput();
     renderCanvas();
 }
 
@@ -105,9 +103,33 @@ function onDeleteLine() {
     renderCanvas();
 }
 
+function onChangeFontSize(action) {
+    if (!getActiveLine()) return;
+    changeFontSize(action);
+    renderCanvas();
+}
+
+function onSetFont(fontFamily) {
+    setFont(fontFamily);
+    renderCanvas();
+}
+
+function onChangeTextColor(hex) {
+    if (!getActiveLine()) return;
+    changeTextColor(hex);
+    renderCanvas();
+}
+
+function onChangeStrokeColor(hex) {
+    if (!getActiveLine()) return;
+    changeStrokeColor(hex);
+    renderCanvas();
+}
+
+
 function onClearText() {
     resetLines();
-    emptyInput();
+    // emptyInput();
     renderCanvas();
 }
 
@@ -123,14 +145,25 @@ function onDownloadCanvas(elLink) {
     elLink.download = 'mySpongeMeme'
 }
 
-
 /////////////////text change & mark////////////////////
 
-function addText() {
+/// add text by input- commented out in favor of inline input, might restore later
+// function addText() {
+//     var line = getActiveLine();
+//     if (!line) return;
+//     var text = document.getElementById('input-text').value;
+//     line.txt = text;
+//     renderCanvas();
+// }
+
+function handleInlineInput(ev) {
+    var char = ev.key;
     var line = getActiveLine();
-    if (!line) return;
-    var text = document.getElementById('input-text').value;
-    line.txt = text;
+    if (char === 'Backspace') line.txt = line.txt.substring(0, line.txt.length - 1);
+    else if (char === 'Escape' || char === 'Enter') updateActiveLine(-1);
+    else if (char === 'Delete') deleteLine();
+    else if (!String.fromCharCode(ev.keyCode).match(/(\w|\s)/g)) return;
+    else line.txt += char;
     renderCanvas();
 }
 
@@ -138,7 +171,7 @@ function drawText() {
     var lines = getgMemeLines();
     lines.forEach(line => {
         gCtx.beginPath();
-        gCtx.lineWidth = 1.5;
+        gCtx.lineWidth = 2;
         gCtx.strokeStyle = line.stroke;
         gCtx.fillStyle = line.color;
         gCtx.font = `${line.size}px ${line.font}`;
@@ -157,7 +190,8 @@ function MarkActiveLine() {
     updateLineWidth(width);
 
     gCtx.beginPath();
-    gCtx.strokeStyle = "white";
+    gCtx.setLineDash([6, 5]);
+    gCtx.strokeStyle = "#ffffff";
     var x = line.x - (line.width / 2);
     var y = line.y - line.size;
     gCtx.rect(x - 10, y, line.width + 20, line.size + 10);
@@ -168,7 +202,7 @@ function MarkActiveLine() {
 ///////////////// line dragging related functions ////////////////////
 
 function onDown(ev) {
-    emptyInput();
+    // emptyInput();
     const pos = getEvPos(ev);
     if (!lineClicked(pos)) return;
     gStartPos = pos;
@@ -206,9 +240,12 @@ function lineClicked(pos) {
     });
     updateActiveLine(clickedLineIdx);
     renderCanvas();
-    document.body.style.cursor = 'grabbing';
-    if (clickedLineIdx === -1) return false;
-    else return true;
+    if (clickedLineIdx !== -1) {
+        document.body.style.cursor = 'grabbing';
+        updateColorInputs();
+        return true;
+    }
+    else return false;
 }
 
 function getEvPos(ev) {
@@ -228,10 +265,18 @@ function getEvPos(ev) {
 }
 
 
-//////////// others/general
+//////////// inputs updates
 
-function emptyInput() {
-    var elInput = document.getElementById('input-text');
-    elInput.value = '';
-    elInput.placeholder = '';
+// function emptyInput() {
+//     var elInput = document.getElementById('input-text');
+//     elInput.value = '';
+//     elInput.placeholder = '';
+// }
+
+function updateColorInputs() {
+    var activeLine = getActiveLine()
+    document.querySelector('#text-fill').value = activeLine.color;
+    document.querySelector('#text-stroke').value = activeLine.stroke;
 }
+
+//currently commented out because color input is hidden, may change this later

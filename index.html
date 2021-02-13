@@ -11,24 +11,42 @@
 </head>
 
 <body onload="init()">
-    <h1>SpongeMeme🧽</h1>
+    <h1>SpongeMeme</h1>
 
-    <div class="editor hidden">
-        <div class="canvas-container">
-            <button class="back-btn" onclick="onBack()">↵</button>
-            <canvas id="meme-canvas" width="300" height="300"></canvas>
+    <!-- <div>filter by: 🦀🦑🧽⭐</div> -->
+
+    <div class="editor-container hidden">
+        <div class="editor">
+            <div class="canvas-container">
+                <canvas id="meme-canvas" width="300" height="300"></canvas>
+            </div>
+            <div class="editor-options">
+                <!-- <input type="text" id="input-text"> -->
+                <br>
+                <img src="img/icons/add.png" alt="" class="icon" onclick="onAddLine()">
+                <img src="img/icons/delete.png" alt="" class="icon" onclick="onDeleteLine()">
+                <img class="icon" src="img/icons/increase.png" alt="" onclick="onChangeFontSize('increase')">
+                <img class="icon" src="img/icons/decrease-font.png" alt="" onclick="onChangeFontSize('decrease')">
+                <br>
+                <select name="font-select" id="font-select" onchange="onSetFont(this.value)">
+                    <option value="Impact">Impact</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Tahoma">Tahoma</option>
+                </select>
+                <br>
+                <label for="text-fill"><img class="icon" src="img/icons/fill2.png" alt=""></label>
+                <input type="color" id="text-fill" name="text-fill" value="#ffffff"
+                    oninput="onChangeTextColor(this.value)">
+                <label for="text-stroke"><img class="icon" src="img/icons/stroke.png" alt=""></label>
+                <input type="color" id="text-stroke" name="text-stroke" value="#000000"
+                    oninput="onChangeStrokeColor(this.value)">
+                <br>
+                <img src="img/icons/bin.png" alt="" class="icon" onclick="onClearText()">
+                <a href="#" onclick="onDownloadCanvas(this)" download="" class="download">
+                    <img src="img/icons/download.png" alt="" class="icon"></a>
+            </div>
         </div>
-        <div class="editor-options">
-            <input type="text" id="input-text">
-            <br>
-            <button onclick="onAddLine()"> + </button>
-            <button onclick="onDeleteLine()">⌧</button>
-            <button onclick="onChangeFontSize('increase')">A+</button>
-            <button onclick="onChangeFontSize('decrease')">A-</button>
-            <button onclick="onClearText()">clear all</button>
-            <a href="#" onclick="onDownloadCanvas(this)" download="" class="download">
-                <img src="img/icons/download.png" alt="" class="icon"></a>
-        </div>
+        <button class="back-btn" onclick="onBack()">↵</button>
     </div>
 
     <div class="gallery">
