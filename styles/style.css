@@ -12,27 +12,36 @@ html {
 }
 
 body {
+    margin: 0;
     background-color: #8bbfe2;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+header {
+    background-color: #366094;
+}
+
+.header-container {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+h1 {
     font-family: 'spongebob';
     color: rgb(238, 203, 46);
-    text-shadow: 3px 3px 0 #4074b5, 3px -3px 0 #4074b5, -3px 3px 0 #4074b5,
-        -3px -3px 0 #4074b5, 3px 0px 0 #4074b5, 0px 3px 0 #4074b5,
-        -3px 0px 0 #4074b5, 0px -3px 0 #4074b5;
     letter-spacing: 0.2rem;
 }
 
 a {
     text-decoration: none;
+}
+
+.canvas-container {
+    margin: auto 20px;
 }
 
 
@@ -57,6 +66,15 @@ a {
     max-width: 200px;
 }
 
+.inline-support-message {
+    font-size: 10px;
+    font-weight: bold;
+    color: rgb(50, 54, 80);
+    margin: 0;
+    letter-spacing: 0.001rem;
+}
+
+
 .back-btn {
     border: none;
     cursor: pointer;
@@ -65,7 +83,6 @@ a {
     background-color: inherit;
 
 }
-
 
 #text-fill,
 #text-stroke {
@@ -131,5 +148,9 @@ a {
     .editor {
         flex-direction: column;
         padding: 10px;
+    }
+
+    .inline-support-message {
+        display: none;
     }
 }

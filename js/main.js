@@ -14,19 +14,23 @@ function init() {
 ///////////////// event listeners ////////////////////
 
 function addEventListeners() {
+    addMouseListeners();
+    addTouchListeners();
+
+    //// typing listeners
     window.addEventListener('keydown', function (event) {
         if (getActiveLine()) handleInlineInput(event);
     });
-    addMouseListeners();
-    addTouchListeners();
-    // var elInput = document.getElementById('input-text');
-    // elInput.addEventListener('keyup', addText);
-    // elInput.addEventListener('keydown', function (event) {
-    //     if (!getActiveLine()) {
-    //         event.preventDefault();
-    //         elInput.placeholder = 'no line selected!';
-    //     }
-    // });
+
+    var elInput = document.getElementById('input-text');
+    elInput.addEventListener('keyup', addText);
+
+    elInput.addEventListener('keydown', function (event) {
+        if (!getActiveLine()) {
+            event.preventDefault();
+            elInput.placeholder = 'no line selected!';
+        }
+    });
 }
 
 function addMouseListeners() {
@@ -81,19 +85,16 @@ function renderCanvas() {
 function resetCanvas() {
     resetLines('initial');
     gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
-    var elInput = document.getElementById('input-text');
-    elInput.value = '';
+    emptyInput();
 }
 
 
 //////////////// editor controllers ////////////////
 
-
-
 function onAddLine() {
-    // document.querySelector('#input-text').placeholder = '';
+    document.querySelector('#input-text').placeholder = '';
     addLine();
-    // emptyInput();
+    emptyInput();
     renderCanvas();
 }
 
@@ -129,7 +130,7 @@ function onChangeStrokeColor(hex) {
 
 function onClearText() {
     resetLines();
-    // emptyInput();
+    emptyInput();
     renderCanvas();
 }
 
@@ -140,21 +141,22 @@ function onBack() {
 
 
 function onDownloadCanvas(elLink) {
+    updateActiveLine(-1);
+    renderCanvas();
     const data = gElCanvas.toDataURL()
     elLink.href = data;
-    elLink.download = 'mySpongeMeme'
+    elLink.download = 'mySpongeMeme';
 }
 
 /////////////////text change & mark////////////////////
 
-/// add text by input- commented out in favor of inline input, might restore later
-// function addText() {
-//     var line = getActiveLine();
-//     if (!line) return;
-//     var text = document.getElementById('input-text').value;
-//     line.txt = text;
-//     renderCanvas();
-// }
+function addText() {
+    var line = getActiveLine();
+    if (!line) return;
+    var text = document.getElementById('input-text').value;
+    line.txt = text;
+    renderCanvas();
+}
 
 function handleInlineInput(ev) {
     var char = ev.key;
@@ -202,7 +204,7 @@ function MarkActiveLine() {
 ///////////////// line dragging related functions ////////////////////
 
 function onDown(ev) {
-    // emptyInput();
+    emptyInput();
     const pos = getEvPos(ev);
     if (!lineClicked(pos)) return;
     gStartPos = pos;
@@ -267,16 +269,14 @@ function getEvPos(ev) {
 
 //////////// inputs updates
 
-// function emptyInput() {
-//     var elInput = document.getElementById('input-text');
-//     elInput.value = '';
-//     elInput.placeholder = '';
-// }
+function emptyInput() {
+    var elInput = document.getElementById('input-text');
+    elInput.value = '';
+    elInput.placeholder = '';
+}
 
 function updateColorInputs() {
     var activeLine = getActiveLine()
     document.querySelector('#text-fill').value = activeLine.color;
     document.querySelector('#text-stroke').value = activeLine.stroke;
 }
-
-//currently commented out because color input is hidden, may change this later

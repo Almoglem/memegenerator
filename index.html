@@ -11,7 +11,12 @@
 </head>
 
 <body onload="init()">
-    <h1>SpongeMeme</h1>
+    <header>
+        <div class="header-container">
+            <h1>SpongeMeme</h1>
+        </div>
+    </header>
+
 
     <!-- <div>filter by: 🦀🦑🧽⭐</div> -->
 
@@ -21,7 +26,8 @@
                 <canvas id="meme-canvas" width="300" height="300"></canvas>
             </div>
             <div class="editor-options">
-                <!-- <input type="text" id="input-text"> -->
+                <input type="text" id="input-text" class="input-text">
+                <p class="inline-support-message">inline text edit supported!</p>
                 <br>
                 <img src="img/icons/add.png" alt="" class="icon" onclick="onAddLine()">
                 <img src="img/icons/delete.png" alt="" class="icon" onclick="onDeleteLine()">
