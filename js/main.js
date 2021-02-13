@@ -65,6 +65,7 @@ function onSetImg(id) {
 function toggleEditor() {
     document.querySelector('.editor-container').classList.toggle('hidden');
     document.querySelector('.gallery').classList.toggle('hidden');
+    document.querySelector('.footer-container').classList.toggle('hidden');
 }
 
 

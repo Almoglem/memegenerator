@@ -13,7 +13,9 @@
 <body onload="init()">
     <header>
         <div class="header-container">
-            <h1>SpongeMeme</h1>
+            <h1><span class="sponge-symbols-big">+</span>SpongeMeme</h1>
+
+            <a href="#footer" class="about"><span class="sponge-symbols-small">&</span>About Me</a>
         </div>
     </header>
 
@@ -35,9 +37,9 @@
                 <img class="icon" src="img/icons/decrease-font.png" alt="" onclick="onChangeFontSize('decrease')">
                 <br>
                 <select name="font-select" id="font-select" onchange="onSetFont(this.value)">
-                    <option value="Impact">Impact</option>
-                    <option value="Verdana">Verdana</option>
-                    <option value="Tahoma">Tahoma</option>
+                    <option value="Impact" class="impact">Impact</option>
+                    <option value="Tahoma" class="tahoma">Tahoma</option>
+                    <option value="Verdana" class="verdona">Verdana</option>
                 </select>
                 <br>
                 <label for="text-fill"><img class="icon" src="img/icons/fill2.png" alt=""></label>
@@ -51,13 +53,25 @@
                 <a href="#" onclick="onDownloadCanvas(this)" download="" class="download">
                     <img src="img/icons/download.png" alt="" class="icon"></a>
             </div>
+            <span class="back" onclick="onBack()">🡿</span>
         </div>
-        <button class="back-btn" onclick="onBack()">↵</button>
     </div>
 
     <div class="gallery">
     </div>
 
+    <footer id="footer">
+        <div class="footer-container">
+            <img src="img/me.jpg" alt="" class="my-image">
+            <p class="about-p"> <span class="sponge-symbols-small">=</span> Hey there! nice to meet you. I'm Almog, a
+                web
+                developer. I'm a coding academy graduate
+                to be- an
+                intensive
+                (640 hours) and selective coding bootcamp that qualifies web developers. passionate about everything web
+                development, frond end to back end, and about learning new technologies. </p>
+        </div>
+    </footer>
 
     <script src="js/services/meme-service.js"></script>
     <script src="js/main.js"></script>

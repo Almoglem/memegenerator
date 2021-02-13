@@ -1,6 +1,16 @@
 @font-face {
-    src: url('fonts/spongebob.ttf');
-    font-family: 'spongebob';
+    src: url('fonts/sponge2.ttf');
+    font-family: 'sponge';
+}
+
+@font-face {
+    src: url('fonts/sponge-handwrite.ttf');
+    font-family: 'sponge-handwrite';
+}
+
+@font-face {
+    src: url('fonts/Assistant-Medium.ttf');
+    font-family: 'assistant-medium';
 }
 
 * {
@@ -13,31 +23,57 @@ html {
 
 body {
     margin: 0;
-    background-color: #8bbfe2;
+    background-color: #c0d2dd;
+    color: #484e75;
     text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'assistant-medium';
 }
 
-header {
-    background-color: #366094;
+header,
+footer {
+    background-color: #7899c2;
 }
 
 .header-container {
+    max-width: 1000px;
+    margin: auto;
     height: 100px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 
-h1 {
-    font-family: 'spongebob';
-    color: rgb(238, 203, 46);
+header h1 {
+    display: inline-block;
+    margin-inline-start: 20px;
+    font-family: 'sponge';
+    color: #323650;
+    font-size: 2.5rem;
     letter-spacing: 0.2rem;
+}
+
+header .about {
+    margin-inline-end: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+    font-family: 'sponge-handwrite';
+}
+
+.sponge-symbols-big {
+    font-family: 'sponge';
+    font-size: 3rem;
+    font-weight: 100;
+}
+
+.sponge-symbols-small {
+    font-family: 'sponge';
+    font-size: 2.3rem;
 }
 
 a {
     text-decoration: none;
+    color: unset;
 }
 
 .canvas-container {
@@ -46,6 +82,7 @@ a {
 
 
 .editor-container {
+    position: relative;
     max-width: 600px;
     margin: auto;
 }
@@ -53,10 +90,8 @@ a {
 .editor {
     display: flex;
     padding: 50px;
-    background-image: url('../img/bubbles.png');
+    background-image: url('../img/bubbles3.jpg');
     background-color: #c3d8ddb2;
-    -webkit-box-shadow: inset 1px -4px 14px 5px #d3e8eee5;
-    box-shadow: inset 1px -4px 14px 5px #d3e8eee5;
     border-radius: 30px;
     align-items: center;
     justify-content: center;
@@ -69,19 +104,18 @@ a {
 .inline-support-message {
     font-size: 10px;
     font-weight: bold;
-    color: rgb(50, 54, 80);
+    color: #323650;
     margin: 0;
     letter-spacing: 0.001rem;
 }
 
 
-.back-btn {
-    border: none;
+.back {
+    position: absolute;
+    left: 20px;
+    bottom: 10px;
     cursor: pointer;
-    font-size: 2rem;
-    font-weight: 900;
-    background-color: inherit;
-
+    font-size: 1.5rem;
 }
 
 #text-fill,
@@ -106,19 +140,43 @@ a {
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     grid-template-rows: repeat(3, 1fr);
     gap: 10px;
-    width: 800px;
+    max-width: 800px;
+    margin-bottom: 130px;
 }
 
 .gallery img {
     height: 100%;
     width: 100%;
     border-radius: 5px;
-    box-shadow: 0px 0px 12px 1px #244e81;
+    /* box-shadow: 0px 0px 12px 1px #244e81; */
     cursor: pointer;
 }
 
 .gallery img:hover {
-    box-shadow: 0px 0px 0px 3px #c2d0e0;
+    box-shadow: 0px 0px 12px 1px #f7f7f7;
+}
+
+
+.footer-container {
+    max-width: 900px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.my-image {
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    margin-right: 30px;
+}
+
+.about-p {
+    max-width: 400px;
+    font-family: 'sponge-handwrite';
+    font-size: 1.5rem;
 }
 
 /* helpers */
@@ -126,19 +184,36 @@ a {
     display: none;
 }
 
+.impact {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.verdona {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.tahoma {
+    font-family: Tahoma;
+}
+
 /* medium breakpoint */
 
 @media (max-width: 1200px) {
     .gallery {
-        width: 550px;
+        max-width: 550px;
     }
 }
 
 /* small breakpoint */
 
 @media (max-width: 680px) {
+
+    .about {
+        display: none;
+    }
+
     .gallery {
-        width: 300px;
+        max-width: 300px;
     }
 
     .editor-container {
@@ -152,5 +227,9 @@ a {
 
     .inline-support-message {
         display: none;
+    }
+
+    .footer-container {
+        flex-direction: column;
     }
 }
