@@ -35,13 +35,13 @@ footer {
 }
 
 .header-container {
-    max-width: 1000px;
+    max-width: 900px;
     margin: auto;
     height: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 }
 
 header h1 {
@@ -75,6 +75,17 @@ a {
     text-decoration: none;
     color: unset;
 }
+
+.filter-line {
+    font-family: 'sponge-handwrite';
+    font-size: 2rem;
+}
+
+.filter-item {
+    cursor: pointer;
+    font-size: 1.4rem;
+}
+
 
 .canvas-container {
     margin: auto 20px;
@@ -115,7 +126,8 @@ a {
     left: 20px;
     bottom: 10px;
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
 }
 
 #text-fill,
@@ -141,7 +153,7 @@ a {
     grid-template-rows: repeat(3, 1fr);
     gap: 10px;
     max-width: 800px;
-    margin-bottom: 130px;
+    margin-bottom: 80px;
 }
 
 .gallery img {
@@ -170,13 +182,20 @@ a {
     height: 200px;
     width: 200px;
     border-radius: 50%;
-    margin-right: 30px;
+    /* margin-right: 30px; */
 }
 
-.about-p {
+.about-paragraph {
     max-width: 400px;
     font-family: 'sponge-handwrite';
     font-size: 1.5rem;
+    text-align: start;
+    margin-left: 30px;
+}
+
+.social-icon {
+    size: 30px;
+    width: 30px;
 }
 
 /* helpers */
@@ -208,10 +227,6 @@ a {
 
 @media (max-width: 680px) {
 
-    .about {
-        display: none;
-    }
-
     .gallery {
         max-width: 300px;
     }
@@ -231,5 +246,10 @@ a {
 
     .footer-container {
         flex-direction: column;
+    }
+
+    .about-paragraph {
+        text-align: center;
+        margin-left: 0;
     }
 }
