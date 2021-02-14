@@ -120,18 +120,21 @@ function onChangeFontSize(action) {
 
 function onSetFont(fontFamily) {
     setFont(fontFamily);
+    document.querySelector('#font-select').style.fontFamily = fontFamily;
     renderCanvas();
 }
 
 function onChangeTextColor(hex) {
     if (!getActiveLine()) return;
     changeTextColor(hex);
+    updateColorInputs();
     renderCanvas();
 }
 
 function onChangeStrokeColor(hex) {
     if (!getActiveLine()) return;
     changeStrokeColor(hex);
+    updateColorInputs();
     renderCanvas();
 }
 
@@ -169,6 +172,7 @@ function addText() {
 function handleInlineInput(ev) {
     var char = ev.key;
     var line = getActiveLine();
+    if (line.txt === 'your text here') line.txt = ''
     if (char === 'Backspace') line.txt = line.txt.substring(0, line.txt.length - 1);
     else if (char === 'Escape' || char === 'Enter') updateActiveLine(-1);
     else if (char === 'Delete') deleteLine();
@@ -184,10 +188,10 @@ function drawText() {
         gCtx.lineWidth = 2;
         gCtx.strokeStyle = line.stroke;
         gCtx.fillStyle = line.color;
-        gCtx.font = `${line.size}px ${line.font}`;
+        gCtx.font = `bold ${line.size}px ${line.font} `;
         gCtx.textAlign = line.align;
         gCtx.fillText(line.txt, line.x, line.y, gElCanvas.width);
-        gCtx.strokeText(line.txt, line.x, line.y, gElCanvas.width);
+        if (line.font !== 'Sponge') gCtx.strokeText(line.txt, line.x, line.y, gElCanvas.width);
     });
 }
 

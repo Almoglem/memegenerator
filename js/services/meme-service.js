@@ -71,7 +71,7 @@ function createLine(yPos) {
     return {
         x: gCanvasSize / 2,
         y: yPos,
-        txt: '',
+        txt: 'your text here',
         size: 30,
         color: '#ffffff',
         stroke: '#000000',

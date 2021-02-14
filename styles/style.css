@@ -98,13 +98,13 @@ a {
 
 .editor-container {
     position: relative;
-    max-width: 600px;
+    max-width: 665px;
     margin: auto;
 }
 
 .editor {
     display: flex;
-    padding: 50px;
+    padding: 50px 30px;
     background-image: url('../img/bubbles3.jpg');
     background-color: #c3d8ddb2;
     -webkit-box-shadow: inset 1px -4px 14px 5px #d3e8eee5;
@@ -115,15 +115,13 @@ a {
 }
 
 .editor-options {
-    max-width: 200px;
+    max-width: 300px;
 }
 
 .inline-support-message {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: bold;
     color: #323650;
-    margin: 0;
-    letter-spacing: 0.001rem;
 }
 
 
@@ -138,12 +136,18 @@ a {
 
 #text-fill,
 #text-stroke {
+    background-color: inherit;
     height: 25px;
     width: 25px;
     border: none;
     margin-bottom: 10px;
 }
 
+#font-select {
+    margin-bottom: 10px;
+    background-color: #8eb7e3;
+    font-family: impact;
+}
 
 .icon {
     height: 32px;
@@ -217,6 +221,10 @@ a {
 
 .tahoma {
     font-family: Tahoma;
+}
+
+.sponge {
+    font-family: 'sponge';
 }
 
 /* medium breakpoint */

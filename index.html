@@ -37,26 +37,27 @@
                 <canvas id="meme-canvas" width="300" height="300"></canvas>
             </div>
             <div class="editor-options">
-                <input type="text" id="input-text" class="input-text">
-                <p class="inline-support-message">inline text edit supported!</p>
+                <input type="text" id="input-text" class="input-text" placeholder="type here!"> <br>
+                <span class="inline-support-message">*canvas inline typing is also supported on this device</span>
                 <br>
                 <img src="img/icons/add.png" alt="" class="icon" onclick="onAddLine()">
                 <img src="img/icons/delete.png" alt="" class="icon" onclick="onDeleteLine()">
                 <img class="icon" src="img/icons/increase.png" alt="" onclick="onChangeFontSize('increase')">
                 <img class="icon" src="img/icons/decrease-font.png" alt="" onclick="onChangeFontSize('decrease')">
                 <br>
+                <label for="text-fill"><img class="icon fill-icon" src="img/icons/fill2.png" alt=""></label>
+                <input type="color" id="text-fill" name="text-fill" value="#ffffff"
+                    oninput="onChangeTextColor(this.value)">
+                <label for="text-stroke"><img class="icon stroke-icon" src="img/icons/stroke.png" alt=""></label>
+                <input type="color" id="text-stroke" name="text-stroke" value="#000000"
+                    oninput="onChangeStrokeColor(this.value)">
+                <br>
                 <select name="font-select" id="font-select" onchange="onSetFont(this.value)">
                     <option value="Impact" class="impact">Impact</option>
+                    <option value="Sponge" class="sponge">Sponge&</option>
                     <option value="Tahoma" class="tahoma">Tahoma</option>
                     <option value="Verdana" class="verdona">Verdana</option>
                 </select>
-                <br>
-                <label for="text-fill"><img class="icon" src="img/icons/fill2.png" alt=""></label>
-                <input type="color" id="text-fill" name="text-fill" value="#ffffff"
-                    oninput="onChangeTextColor(this.value)">
-                <label for="text-stroke"><img class="icon" src="img/icons/stroke.png" alt=""></label>
-                <input type="color" id="text-stroke" name="text-stroke" value="#000000"
-                    oninput="onChangeStrokeColor(this.value)">
                 <br>
                 <img src="img/icons/bin.png" alt="" class="icon" onclick="onClearText()">
                 <a href="#" onclick="onDownloadCanvas(this)" download="" class="download">
