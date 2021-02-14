@@ -188,7 +188,7 @@ function drawText() {
         gCtx.lineWidth = 2;
         gCtx.strokeStyle = line.stroke;
         gCtx.fillStyle = line.color;
-        gCtx.font = `bold ${line.size}px ${line.font} `;
+        gCtx.font = `${line.size}px ${line.font} `;
         gCtx.textAlign = line.align;
         gCtx.fillText(line.txt, line.x, line.y, gElCanvas.width);
         if (line.font !== 'Sponge') gCtx.strokeText(line.txt, line.x, line.y, gElCanvas.width);
