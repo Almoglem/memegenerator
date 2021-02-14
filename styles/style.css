@@ -23,7 +23,7 @@ html {
 
 body {
     margin: 0;
-    background-color: #c0d2dd;
+    background-color: #9bb9da;
     color: #484e75;
     text-align: center;
     font-family: 'assistant-medium';
@@ -41,7 +41,7 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 header h1 {
@@ -81,6 +81,10 @@ a {
     font-size: 2rem;
 }
 
+.filter-line {
+    margin: 15px;
+}
+
 .filter-item {
     cursor: pointer;
     font-size: 1.4rem;
@@ -103,6 +107,8 @@ a {
     padding: 50px;
     background-image: url('../img/bubbles3.jpg');
     background-color: #c3d8ddb2;
+    -webkit-box-shadow: inset 1px -4px 14px 5px #d3e8eee5;
+    box-shadow: inset 1px -4px 14px 5px #d3e8eee5;
     border-radius: 30px;
     align-items: center;
     justify-content: center;
@@ -160,7 +166,7 @@ a {
     height: 100%;
     width: 100%;
     border-radius: 5px;
-    /* box-shadow: 0px 0px 12px 1px #244e81; */
+    box-shadow: 0px 0px 12px 1px #244e81;
     cursor: pointer;
 }
 
