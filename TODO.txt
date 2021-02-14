@@ -1,3 +1,6 @@
+add mediaquery to big screen(1200+)
+add menu with download and share options
+
+big todos:
 add stickers
-add search
 saved memes gallery with local storage

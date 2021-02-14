@@ -21,14 +21,13 @@ var gImgs =
     { id: 20, url: 'img/memes-sqr/patrick-trumpet.jpg', keywords: ['patrick', 'trumpet'] },
     ];
 
-var gCurrImgId;
 var gCanvasSize = 300;
 var gFilter = 'all';
 
 var gMeme = {
-    selectedImgId: gCurrImgId,
+    selectedImgId: null,
     activeLineIdx: 0,
-    lines: [createLine(40)]
+    lines: [_createLine(40)]
 }
 
 
@@ -46,20 +45,24 @@ function setFilter(filter) {
     gFilter = filter;
 }
 
-function setgImg(id) {
-    gCurrImgId = id;
+function setImg(id) {
+    gMeme.selectedImgId = id;
 }
 
 function getImgById(id) {
     return gImgs.find(img => img.id === id);
 }
 
+function getCurrImg() {
+    return gImgs[gMeme.selectedImgId];
+}
+
 
 //////////// lines related functions ////////////
 
-///get & create
+///get & find
 
-function getgMemeLines() {
+function getMemeLines() {
     return gMeme.lines;
 }
 
@@ -67,7 +70,17 @@ function getActiveLine() {
     return gMeme.lines[gMeme.activeLineIdx];
 }
 
-function createLine(yPos) {
+function findClickedLineIdx(pos) {
+    var idx = gMeme.lines.findIndex(line => {
+        return pos.x > line.x - (line.width / 2) - 10
+            && pos.x < line.x + (line.width / 2) + 10
+            && pos.y > line.y - line.size
+            && pos.y < gElCanvas.height - (gElCanvas.height - line.y - 10)
+    });
+    return idx;
+}
+
+function _createLine(yPos) {
     return {
         x: gCanvasSize / 2,
         y: yPos,
@@ -77,15 +90,15 @@ function createLine(yPos) {
         stroke: '#000000',
         font: 'impact',
         align: 'center',
-        isDragging: false
+        gIsDragging: false
     };
 }
 
 ///deletions & resets
 
-function resetLines(state) {
+function resetLines(isInitial) {
     gMeme.lines = [];
-    if (state === 'initial') gMeme.lines.push(createLine(40));
+    if (isInitial) gMeme.lines.push(_createLine(40));
     gMeme.activeLineIdx = 0;
 }
 
@@ -94,45 +107,24 @@ function deleteLine() {
     gMeme.lines.splice(idx, 1);
     gMeme.activeLineIdx = idx - 1;
     if (gMeme.activeLineIdx < 0) gMeme.activeLineIdx = 0;
-    // emptyInput();
 }
 
 // updates & changes
 
 function updateActiveLine(idx) {
-    if (idx === -1) {
-        gMeme.activeLineIdx = null;
-        return;
-    }
     gMeme.activeLineIdx = idx;
-    gMeme.lines[idx].isDragging = true;
 }
 
-function setFont(fontFamily) {
-    gMeme.lines[gMeme.activeLineIdx].font = fontFamily;
+function changeProperty(property, value) {
+    gMeme.lines[gMeme.activeLineIdx][property] = value;
 }
 
-function changeFontSize(action) {
-    var currLine = gMeme.lines[gMeme.activeLineIdx];
-    var diff = 5;
-    if (action === 'increase') currLine.size += diff;
-    else if (action === 'decrease') {
-        if (currLine.size < 20) return;
-        gMeme.lines[gMeme.activeLineIdx].size -= diff;
-    }
+function changeFontSize(prefix) {
+    var diff = prefix * 5;
+    gMeme.lines[gMeme.activeLineIdx].size += diff;
 }
 
-function changeTextColor(hex) {
-    gMeme.lines[gMeme.activeLineIdx].color = hex;
-}
 
-function changeStrokeColor(hex) {
-    gMeme.lines[gMeme.activeLineIdx].stroke = hex;
-}
-
-function updateLineWidth(width) {
-    gMeme.lines[gMeme.activeLineIdx].width = width;
-}
 
 //// new line addition 
 
@@ -143,7 +135,7 @@ function addLine() {
     else if (linesNum === 1) yPos = 280;
     else if (linesNum > 1) yPos = 150;
 
-    var newLine = createLine(yPos);
+    var newLine = _createLine(yPos);
     gMeme.lines.push(newLine);
     gMeme.activeLineIdx = gMeme.lines.length - 1;
 }

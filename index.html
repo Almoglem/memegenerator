@@ -13,9 +13,9 @@
 <body onload="init()">
     <header>
         <div class="header-container">
-            <h1><span class="sponge-symbols-big">+</span>SpongeMeme</h1>
+            <h1 class="logo" onclick="onLogoClick()"><span class="sponge-symbols-big">+</span>SpongeMeme</h1>
 
-            <a href="#footer" class="about"><span class="sponge-symbols-small">&</span>About Me</a>
+            <a href="#footer" class="about-me"><span class="sponge-symbols-small">&</span>About Me</a>
         </div>
     </header>
 
@@ -37,48 +37,49 @@
                 <canvas id="meme-canvas" width="300" height="300"></canvas>
             </div>
             <div class="editor-options">
-                <input type="text" id="input-text" class="input-text" placeholder="type here!"> <br>
-                <span class="inline-support-message">*canvas inline typing is also supported on this device</span>
+                <input type="text" id="text-input" class="text-input" placeholder="type here!"> <br>
+                <span class="inline-support-message">on-canvas typing supported</span>
                 <br>
-                <img src="img/icons/add.png" alt="" class="icon" onclick="onAddLine()">
-                <img src="img/icons/delete.png" alt="" class="icon" onclick="onDeleteLine()">
-                <img class="icon" src="img/icons/increase.png" alt="" onclick="onChangeFontSize('increase')">
-                <img class="icon" src="img/icons/decrease-font.png" alt="" onclick="onChangeFontSize('decrease')">
+                <img src="img/icons/add.png" alt="add line" class="icon" onclick="onAddLine()">
+                <img src="img/icons/delete.png" alt="delete line" class="icon" onclick="onDeleteLine()">
+                <img class="icon" src="img/icons/increase.png" alt="increase font" onclick="onChangeFontSize(1)">
+                <img class="icon" src="img/icons/decrease-font.png" alt="decrease font" onclick="onChangeFontSize(-1)">
                 <br>
-                <label for="text-fill"><img class="icon fill-icon" src="img/icons/fill2.png" alt=""></label>
+                <label for="text-fill"><img class="icon fill-icon" src="img/icons/fill2.png" alt="fill color"></label>
                 <input type="color" id="text-fill" name="text-fill" value="#ffffff"
                     oninput="onChangeTextColor(this.value)">
-                <label for="text-stroke"><img class="icon stroke-icon" src="img/icons/stroke.png" alt=""></label>
+                <label for="text-stroke"><img class="icon stroke-icon" src="img/icons/stroke.png"
+                        alt="outline color"></label>
                 <input type="color" id="text-stroke" name="text-stroke" value="#000000"
                     oninput="onChangeStrokeColor(this.value)">
                 <br>
                 <select name="font-select" id="font-select" onchange="onSetFont(this.value)">
-                    <option value="Impact" class="impact">Impact</option>
-                    <option value="Sponge" class="sponge">Sponge&</option>
-                    <option value="Tahoma" class="tahoma">Tahoma</option>
-                    <option value="Verdana" class="verdona">Verdana</option>
+                    <option class="impact">Impact</option>
+                    <option value="sponge" class="sponge">Sponge&</option>
+                    <option class="tahoma">Tahoma</option>
+                    <option class="verdona">Verdana</option>
                 </select>
                 <br>
-                <img src="img/icons/bin.png" alt="" class="icon" onclick="onClearText()">
+                <img src="img/icons/bin.png" alt="clear all" class="icon" onclick="onClearText()">
                 <a href="#" onclick="onDownloadCanvas(this)" download="" class="download">
-                    <img src="img/icons/download.png" alt="" class="icon"></a>
+                    <img src="img/icons/download.png" alt="download" class="icon"></a>
             </div>
-            <span class="back" onclick="onBack()">↩</span>
         </div>
+        <span class="back main-layout" onclick="onBack()">↩</span>
     </div>
 
-    <div class="gallery">
+    <div class="gallery main-layout">
     </div>
 
     <footer id="footer">
         <div class="footer-container">
-            <div><img src="img/me.jpg" alt="" class="my-image"> <br>
-                <span> <a href="https://github.com/Almoglem"><img src="img/icons/github.png" alt=""
-                            class="social-icon"></a>
-                    <a href="https://www.facebook.com/profile.php?id=100009758524201"><img src="img/icons/facebook.png"
-                            alt="" class="social-icon"></a>
-                    <a href="https://www.linkedin.com/in/almog-lemberg-a4180619a/"><img src="img/icons/linkedin.png"
-                            alt="" class="social-icon"></a>
+            <div><img src="img/me.jpg" alt="my image" class="my-image"> <br>
+                <span> <a href="https://github.com/Almoglem"><img src="img/icons/github.png " target="_blank"
+                            alt="github icon" class="social-icon"></a>
+                    <a href="https://www.facebook.com/profile.php?id=100009758524201" target="_blank"><img
+                            src="img/icons/facebook.png" alt="facebook icon" class="social-icon"></a>
+                    <a href="https://www.linkedin.com/in/almog-lemberg-a4180619a/" target="_blank"><img
+                            src="img/icons/linkedin.png" alt="linkedin icon" class="social-icon"></a>
                 </span>
             </div>
 

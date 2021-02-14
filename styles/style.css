@@ -21,12 +21,16 @@ html {
     font-size: 16px;
 }
 
+.main-layout {
+    max-width: 900px;
+}
+
 body {
     margin: 0;
     background-color: #9bb9da;
     color: #484e75;
     text-align: center;
-    font-family: 'assistant-medium';
+    font-family: 'sponge-handwrite';
 }
 
 header,
@@ -35,7 +39,6 @@ footer {
 }
 
 .header-container {
-    max-width: 900px;
     margin: auto;
     height: 100px;
     display: flex;
@@ -44,20 +47,26 @@ footer {
     margin-bottom: 30px;
 }
 
-header h1 {
+header .logo {
     display: inline-block;
-    margin-inline-start: 20px;
+    margin-inline-start: 40px;
     font-family: 'sponge';
     color: #323650;
     font-size: 2.5rem;
     letter-spacing: 0.2rem;
+    cursor: pointer;
 }
 
-header .about {
-    margin-inline-end: 20px;
+header .about-me {
+    margin-inline-end: 40px;
     font-size: 2rem;
     cursor: pointer;
-    font-family: 'sponge-handwrite';
+}
+
+header .logo:hover,
+header .about-me:hover,
+.back:hover {
+    color: #d2dde9;
 }
 
 .sponge-symbols-big {
@@ -77,7 +86,6 @@ a {
 }
 
 .filter-line {
-    font-family: 'sponge-handwrite';
     font-size: 2rem;
 }
 
@@ -103,10 +111,9 @@ a {
 
 .editor {
     display: flex;
-    padding: 50px 30px;
+    padding: 40px 30px;
     background-image: url('../img/bubbles3.jpg');
     background-color: #c3d8ddb2;
-    -webkit-box-shadow: inset 1px -4px 14px 5px #d3e8eee5;
     box-shadow: inset 1px -4px 14px 5px #d3e8eee5;
     border-radius: 30px;
     align-items: center;
@@ -118,16 +125,15 @@ a {
 }
 
 .inline-support-message {
-    font-size: 12px;
+    font-family: 'assistant-medium';
+    font-size: 0.8rem;
     font-weight: bold;
-    color: #323650;
+    font-style: italic;
+    color: #484e75;
 }
 
 
 .back {
-    position: absolute;
-    left: 20px;
-    bottom: 10px;
     cursor: pointer;
     font-size: 2rem;
     font-weight: bold;
@@ -149,8 +155,8 @@ a {
 }
 
 .icon {
-    height: 32px;
-    width: 32px;
+    height: 40px;
+    width: 40px;
     cursor: pointer;
 }
 
@@ -161,7 +167,6 @@ a {
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     grid-template-rows: repeat(3, 1fr);
     gap: 10px;
-    max-width: 800px;
     margin-bottom: 80px;
 }
 
@@ -194,7 +199,6 @@ a {
 }
 
 .about-paragraph {
-    font-family: 'sponge-handwrite';
     font-size: 1.5rem;
     text-align: start;
     margin-left: 30px;
@@ -226,10 +230,32 @@ a {
     font-family: 'sponge';
 }
 
+/* larger screens breakpoint */
+
+@media (min-width: 1300px) {
+
+    html {
+        font-size: 20px;
+    }
+
+    .main-layout {
+        max-width: 1100px;
+    }
+
+    .editor-container {
+        max-width: 800px;
+    }
+
+    .editor {
+        padding: 100px 30px;
+    }
+}
+
+
 /* medium breakpoint */
 
 @media (max-width: 1200px) {
-    .gallery {
+    .main-layout {
         max-width: 550px;
     }
 }
@@ -237,6 +263,17 @@ a {
 /* small breakpoint */
 
 @media (max-width: 680px) {
+    .header-container {
+        max-width: 400px;
+    }
+
+    header .about-me {
+        font-size: 1.2rem;
+    }
+
+    header .logo {
+        font-size: 1.5rem;
+    }
 
     .gallery {
         max-width: 300px;
@@ -244,6 +281,7 @@ a {
 
     .editor-container {
         max-width: 340px;
+        margin-bottom: 30px;
     }
 
     .editor {

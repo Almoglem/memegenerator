@@ -1,6 +1,7 @@
 var gElCanvas;
 var gCtx;
-var gStartPos;
+var gDragStartPos;
+var gIsDragging = false;
 
 var gTouchEvs = ['touchstart', 'touchmove', 'touchend'];
 
@@ -18,20 +19,9 @@ function addEventListeners() {
     addTouchListeners();
 
     //// typing listeners
-    window.addEventListener('keydown', function (event) {
-        if (getActiveLine()) handleInlineInput(event);
-    });
-
-    var elInput = document.getElementById('input-text');
-    elInput.addEventListener('keyup', addText);
-
-    elInput.addEventListener('keydown', function (event) {
-        if (!getActiveLine()) {
-            event.preventDefault();
-            elInput.placeholder = 'no line selected!';
-        }
-    });
-}
+    document.getElementById('text-input').addEventListener('keyup', addText);
+    window.addEventListener('keydown', handleInlineInput);
+};
 
 function addMouseListeners() {
     gElCanvas.addEventListener('mousedown', onDown);
@@ -47,6 +37,11 @@ function addTouchListeners() {
 
 //////////////// gallery & editor rendering or toggling ////////////////
 
+function onLogoClick() {
+    var elGallery = document.querySelector('.gallery');
+    if (elGallery.classList.contains('hidden')) toggleEditor();
+}
+
 function renderImages() {
     images = getImgsForDisplay();
     var strHTMLs = images.map(img => {
@@ -57,7 +52,7 @@ function renderImages() {
 }
 
 function onSetImg(id) {
-    setgImg(id);
+    setImg(id);
     renderCanvas();
     toggleEditor();
 }
@@ -69,29 +64,27 @@ function onFilterBy(filter) {
 
 function toggleEditor() {
     document.querySelector('.editor-container').classList.toggle('hidden');
+    document.querySelector('.about-me').classList.toggle('hidden');
     document.querySelector('.gallery').classList.toggle('hidden');
     document.querySelector('.filter-container').classList.toggle('hidden');
     document.querySelector('.footer-container').classList.toggle('hidden');
-
 }
-
 
 //////////////// canvas ////////////////
 
 function renderCanvas() {
     const img = new Image();
-    var currImg = getImgById(gCurrImgId);
-    img.src = `./${currImg.url}`;
+    var currImg = getCurrImg();
+    img.src = `${currImg.url}`;
     img.onload = () => {
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
         drawText();
-        MarkActiveLine();
-        gCtx.setLineDash([]);
+        markActiveLine();
     }
 }
 
 function resetCanvas() {
-    resetLines('initial');
+    resetLines(true);
     gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
     emptyInput();
 }
@@ -100,7 +93,6 @@ function resetCanvas() {
 //////////////// editor controllers ////////////////
 
 function onAddLine() {
-    document.querySelector('#input-text').placeholder = '';
     addLine();
     emptyInput();
     renderCanvas();
@@ -109,32 +101,33 @@ function onAddLine() {
 function onDeleteLine() {
     if (!getActiveLine()) return;
     deleteLine();
+    emptyInput();
     renderCanvas();
 }
 
-function onChangeFontSize(action) {
+function onChangeFontSize(prefix) {
     if (!getActiveLine()) return;
-    changeFontSize(action);
+    changeFontSize(prefix);
     renderCanvas();
 }
 
-function onSetFont(fontFamily) {
-    setFont(fontFamily);
-    document.querySelector('#font-select').style.fontFamily = fontFamily;
+function onSetFont(font) {
+    changeProperty('font', font);
+    document.querySelector('#font-select').style.fontFamily = font;
     renderCanvas();
 }
 
-function onChangeTextColor(hex) {
+function onChangeTextColor(color) {
     if (!getActiveLine()) return;
-    changeTextColor(hex);
-    updateColorInputs();
+    changeProperty('color', color);
+    updateInputs();
     renderCanvas();
 }
 
-function onChangeStrokeColor(hex) {
+function onChangeStrokeColor(color) {
     if (!getActiveLine()) return;
-    changeStrokeColor(hex);
-    updateColorInputs();
+    changeProperty('stroke', color);
+    updateInputs();
     renderCanvas();
 }
 
@@ -163,26 +156,27 @@ function onDownloadCanvas(elLink) {
 
 function addText() {
     var line = getActiveLine();
-    if (!line) return;
-    var text = document.getElementById('input-text').value;
-    line.txt = text;
+    if (!line) addLine();
+    var txt = document.getElementById('text-input').value;
+    changeProperty('txt', txt);
     renderCanvas();
 }
 
 function handleInlineInput(ev) {
+    if (!getActiveLine()) addLine();
     var char = ev.key;
     var line = getActiveLine();
     if (line.txt === 'your text here') line.txt = ''
     if (char === 'Backspace') line.txt = line.txt.substring(0, line.txt.length - 1);
     else if (char === 'Escape' || char === 'Enter') updateActiveLine(-1);
-    else if (char === 'Delete') deleteLine();
+    else if (char === 'Delete') onDeleteLine();
     else if (!String.fromCharCode(ev.keyCode).match(/(\w|\s)/g)) return;
     else line.txt += char;
     renderCanvas();
 }
 
 function drawText() {
-    var lines = getgMemeLines();
+    var lines = getMemeLines();
     lines.forEach(line => {
         gCtx.beginPath();
         gCtx.lineWidth = 2;
@@ -191,17 +185,17 @@ function drawText() {
         gCtx.font = `${line.size}px ${line.font} `;
         gCtx.textAlign = line.align;
         gCtx.fillText(line.txt, line.x, line.y, gElCanvas.width);
-        if (line.font !== 'Sponge') gCtx.strokeText(line.txt, line.x, line.y, gElCanvas.width);
+        if (line.font !== 'sponge') gCtx.strokeText(line.txt, line.x, line.y, gElCanvas.width);
     });
 }
 
-function MarkActiveLine() {
+function markActiveLine() {
     var line = getActiveLine();
     if (!line) return;
 
     gCtx.font = `${line.size}px ${line.font}`;
     var width = gCtx.measureText(line.txt).width;
-    updateLineWidth(width);
+    changeProperty('width', width);
 
     gCtx.beginPath();
     gCtx.setLineDash([6, 5]);
@@ -210,6 +204,7 @@ function MarkActiveLine() {
     var y = line.y - line.size;
     gCtx.rect(x - 10, y, line.width + 20, line.size + 10);
     gCtx.stroke();
+    gCtx.setLineDash([]);
 }
 
 
@@ -219,20 +214,20 @@ function onDown(ev) {
     emptyInput();
     const pos = getEvPos(ev);
     if (!lineClicked(pos)) return;
-    gStartPos = pos;
+    gDragStartPos = pos;
 }
 
 function onMove(ev) {
     var activeLine = getActiveLine();
-    if (activeLine && activeLine.isDragging) {
+    if (gIsDragging) {
         const pos = getEvPos(ev);
-        const dx = pos.x - gStartPos.x;
-        const dy = pos.y - gStartPos.y;
+        const dx = pos.x - gDragStartPos.x;
+        const dy = pos.y - gDragStartPos.y;
 
         activeLine.x += dx
         activeLine.y += dy
 
-        gStartPos = pos;
+        gDragStartPos = pos;
         renderCanvas();
     }
 }
@@ -241,22 +236,17 @@ function onUp() {
     document.body.style.cursor = 'default';
     var activeLine = getActiveLine();
     if (!activeLine) return;
-    activeLine.isDragging = false;
+    gIsDragging = false;
 }
 
 function lineClicked(pos) {
-    var lines = getgMemeLines();
-    var clickedLineIdx = lines.findIndex(line => {
-        return pos.x > line.x - (line.width / 2) - 10
-            && pos.x < line.x + (line.width / 2) + 10
-            && pos.y > line.y - line.size
-            && pos.y < gElCanvas.height - (gElCanvas.height - line.y - 10)
-    });
-    updateActiveLine(clickedLineIdx);
+    var idx = findClickedLineIdx(pos);
+    updateActiveLine(idx);
     renderCanvas();
-    if (clickedLineIdx !== -1) {
+    if (idx !== -1) {
+        updateInputs();
+        gIsDragging = true;
         document.body.style.cursor = 'grabbing';
-        updateColorInputs();
         return true;
     }
     else return false;
@@ -282,13 +272,13 @@ function getEvPos(ev) {
 //////////// inputs updates
 
 function emptyInput() {
-    var elInput = document.getElementById('input-text');
+    var elInput = document.getElementById('text-input');
     elInput.value = '';
-    elInput.placeholder = '';
 }
 
-function updateColorInputs() {
+function updateInputs() {
     var activeLine = getActiveLine()
     document.querySelector('#text-fill').value = activeLine.color;
     document.querySelector('#text-stroke').value = activeLine.stroke;
+    document.querySelector('#text-input').value = activeLine.txt;
 }
