@@ -106,12 +106,13 @@ a {
 
 .editor {
     display: flex;
-    padding: 40px 30px;
+    padding: 35px 30px;
     background-image: url('../img/bubbles.jpg');
-    box-shadow: inset 1px 0px 21px 5px #d3dceee5;
+    box-shadow: 1px 0px 21px 5px #d3dceee5;
     border-radius: 30px;
     align-items: center;
     justify-content: center;
+    margin-bottom: 15px;
 }
 
 .editor-options {
@@ -272,11 +273,15 @@ footer {
 @media (min-width: 1300px) {
 
     html {
-        font-size: 20px;
+        font-size: 25px;
     }
 
     .main-layout {
         max-width: 1100px;
+    }
+
+    .header-container {
+        margin-bottom: 100px;
     }
 
     .editor-container {
@@ -285,6 +290,11 @@ footer {
 
     .editor {
         padding: 100px 30px;
+    }
+
+    .icon {
+        height: 50px;
+        width: 50px;
     }
 
     .footer-container {
