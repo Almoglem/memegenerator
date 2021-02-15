@@ -64,10 +64,9 @@ function onFilterBy(filter) {
 
 function toggleEditor() {
     document.querySelector('.editor-container').classList.toggle('hidden');
-    document.querySelector('.about-me').classList.toggle('hidden');
-    document.querySelector('.gallery').classList.toggle('hidden');
-    document.querySelector('.filter-container').classList.toggle('hidden');
-    document.querySelector('.footer-container').classList.toggle('hidden');
+    document.querySelectorAll('.home').forEach(element => {
+        element.classList.toggle('hidden')
+    });
 }
 
 //////////////// canvas ////////////////
@@ -143,14 +142,17 @@ function onBack() {
     toggleEditor();
 }
 
-
-function onDownloadCanvas(elLink) {
+function onReady() {
     updateActiveLine(-1);
     renderCanvas();
+}
+function onDownloadCanvas(elLink) {
     const data = gElCanvas.toDataURL()
     elLink.href = data;
     elLink.download = 'mySpongeMeme';
 }
+
+
 
 /////////////////text change & mark////////////////////
 
@@ -280,5 +282,5 @@ function updateInputs() {
     var activeLine = getActiveLine()
     document.querySelector('#text-fill').value = activeLine.color;
     document.querySelector('#text-stroke').value = activeLine.stroke;
-    document.querySelector('#text-input').value = activeLine.txt;
+    if (activeLine.txt !== 'your text here') document.querySelector('#text-input').value = activeLine.txt;
 }

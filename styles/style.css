@@ -27,15 +27,15 @@ html {
 
 body {
     margin: 0;
-    background-color: #9bb9da;
-    color: #484e75;
+    background-color: #86b0cc;
+    color: #323650;
     text-align: center;
     font-family: 'sponge-handwrite';
 }
 
 header,
 footer {
-    background-color: #7899c2;
+    background-color: #4b93b9;
 }
 
 .header-container {
@@ -44,14 +44,15 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 header .logo {
     display: inline-block;
     margin-inline-start: 40px;
     font-family: 'sponge';
-    color: #323650;
+    color: #dfc861;
+    text-shadow: -3px 1px 0px #323650, -5px 3px 1px #323650;
     font-size: 2.5rem;
     letter-spacing: 0.2rem;
     cursor: pointer;
@@ -61,12 +62,7 @@ header .about-me {
     margin-inline-end: 40px;
     font-size: 2rem;
     cursor: pointer;
-}
-
-header .logo:hover,
-header .about-me:hover,
-.back:hover {
-    color: #d2dde9;
+    color: #24273a;
 }
 
 .sponge-symbols-big {
@@ -87,11 +83,10 @@ a {
 
 .filter-line {
     font-size: 2rem;
+    margin: 15px;
+    color: #484e75;
 }
 
-.filter-line {
-    margin: 15px;
-}
 
 .filter-item {
     cursor: pointer;
@@ -112,9 +107,8 @@ a {
 .editor {
     display: flex;
     padding: 40px 30px;
-    background-image: url('../img/bubbles3.jpg');
-    background-color: #c3d8ddb2;
-    box-shadow: inset 1px -4px 14px 5px #d3e8eee5;
+    background-image: url('../img/bubbles.jpg');
+    box-shadow: inset 1px 0px 21px 5px #d3dceee5;
     border-radius: 30px;
     align-items: center;
     justify-content: center;
@@ -122,35 +116,45 @@ a {
 
 .editor-options {
     max-width: 300px;
+    background-color: #4b93b9;
+    box-shadow: inset 0px 0px 20px 6px #b4cad882;
+    padding: 25px;
+    border-radius: 10px;
 }
 
 .inline-support-message {
+    margin-top: 0;
+    margin-bottom: auto;
     font-family: 'assistant-medium';
     font-size: 0.8rem;
     font-weight: bold;
     font-style: italic;
-    color: #484e75;
 }
 
 
-.back {
-    cursor: pointer;
-    font-size: 2rem;
-    font-weight: bold;
+#text-input {
+    width: 170px;
+    height: 30px;
+    font-family: 'assistant-medium';
 }
 
 #text-fill,
 #text-stroke {
-    background-color: inherit;
-    height: 25px;
-    width: 25px;
+    visibility: hidden;
+    height: 0px;
+    width: 0px;
     border: none;
     margin-bottom: 10px;
+    padding: 0;
 }
 
 #font-select {
+    width: 65px;
+    height: 25px;
+    vertical-align: bottom;
+    margin-bottom: 5px;
     margin-bottom: 10px;
-    background-color: #8eb7e3;
+    background-color: #8ab9d3;
     font-family: impact;
 }
 
@@ -160,6 +164,22 @@ a {
     cursor: pointer;
 }
 
+.ready {
+    vertical-align: bottom;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.back {
+    cursor: pointer;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.back:hover,
+.ready:hover {
+    color: #b4dac9;
+}
 
 .gallery {
     margin: auto;
@@ -179,12 +199,27 @@ a {
 }
 
 .gallery img:hover {
-    box-shadow: 0px 0px 12px 1px #f7f7f7;
+    box-shadow: 0px 0px 12px 1px #bae5d2;
 }
 
+footer {
+    position: relative;
+}
+
+.back-up {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    font-size: 1.6rem;
+    color: #dfc861;
+}
+
+.back-up:hover {
+    color: #323650;
+}
 
 .footer-container {
-    max-width: 800px;
+    max-width: 740px;
     margin: auto;
     display: flex;
     justify-content: space-between;
@@ -193,13 +228,15 @@ a {
 }
 
 .my-image {
-    height: 200px;
-    width: 200px;
+    height: 150px;
+    width: 150px;
+    margin-bottom: 10px;
     border-radius: 50%;
 }
 
 .about-paragraph {
     font-size: 1.5rem;
+    line-height: 1.2;
     text-align: start;
     margin-left: 30px;
 }
@@ -249,6 +286,10 @@ a {
     .editor {
         padding: 100px 30px;
     }
+
+    .footer-container {
+        max-width: 870px;
+    }
 }
 
 
@@ -262,17 +303,22 @@ a {
 
 /* small breakpoint */
 
-@media (max-width: 680px) {
+@media (max-width: 740px) {
     .header-container {
         max-width: 400px;
+        margin-bottom: 20px;
+    }
+
+    header .logo {
+        font-size: 1.5rem;
     }
 
     header .about-me {
         font-size: 1.2rem;
     }
 
-    header .logo {
-        font-size: 1.5rem;
+    header .about-me .spongebob {
+        display: none;
     }
 
     .gallery {
