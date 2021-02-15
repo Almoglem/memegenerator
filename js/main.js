@@ -39,7 +39,7 @@ function addTouchListeners() {
 
 function onLogoClick() {
     var elGallery = document.querySelector('.gallery');
-    if (elGallery.classList.contains('hidden')) toggleEditor();
+    if (elGallery.classList.contains('hidden')) onBack();
 }
 
 function renderImages() {
