@@ -54,7 +54,7 @@ function getImgById(id) {
 }
 
 function getCurrImg() {
-    return gImgs[gMeme.selectedImgId];
+    return gImgs[gMeme.selectedImgId - 1];
 }
 
 
