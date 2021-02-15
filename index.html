@@ -30,28 +30,29 @@
 
     </div>
 
+
+    <!-- EDITOR -->
     <div class="editor-container hidden">
         <div class="editor">
             <div class="canvas-container">
                 <canvas id="meme-canvas" width="300" height="300"></canvas>
             </div>
+
             <div class="editor-options">
-                <input type="text" id="text-input" class="text-input" placeholder="type here!"> <br>
+                <input type="text" id="text-input" class="text-input" placeholder="type here!">
                 <p class="inline-support-message">on-canvas typing supported</p>
                 <br>
                 <img src="img/icons/add.png" alt="add line" class="icon" onclick="onAddLine()">
                 <img src="img/icons/delete.png" alt="delete line" class="icon" onclick="onDeleteLine()">
-                <img src="img/icons/bin.png" alt="clear all" class="icon" onclick="onClearText()">
+                <img src="img/icons/bin.png" alt="clear all" title="clear all" class="icon" onclick="onClearText()">
                 <select name="font-select" id="font-select" onchange="onSetFont(this.value)">
                     <option class="impact">Impact</option>
                     <option value="sponge" class="sponge">Sponge&</option>
                     <option class="tahoma">Tahoma</option>
                     <option class="verdona">Verdana</option>
                 </select>
-                <br>
                 <img class="icon" src="img/icons/increase.png" alt="increase font" onclick="onChangeFontSize(1)">
                 <img class="icon" src="img/icons/decrease-font.png" alt="decrease font" onclick="onChangeFontSize(-1)">
-                <!-- <br> -->
                 <label for="text-fill"><img class="icon fill-icon" src="img/icons/fill2.png" alt="fill color"></label>
                 <input type="color" id="text-fill" name="text-fill" value="#ffffff"
                     oninput="onChangeTextColor(this.value)">
@@ -68,9 +69,11 @@
         <span class="back main-layout" onclick="onBack()">↩</span>
     </div>
 
+    <!-- GALLERY -->
     <div class="gallery main-layout home">
     </div>
 
+    <!-- FOOTER -->
     <footer id="footer" class="home">
         <div class="footer-container">
             <div><img src="img/me.jpg" alt="my image" class="my-image"> <br>
